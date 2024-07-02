@@ -1,2 +1,2 @@
 # pokeGuide_f
-pokeGuide 프론트
+pokeGuide 프론트  😀
