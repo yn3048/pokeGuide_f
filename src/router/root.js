@@ -5,6 +5,7 @@ import LoginPage from "../pages/user/LoginPage";
 import ListPage from "../pages/pokemons/ListPage";
 import DashboardPage from "../pages/admin/DashboardPage";
 
+
 //router 생성
 const root = createBrowserRouter([
     {path: "/", element: <HomePage />}, // 홈 화면

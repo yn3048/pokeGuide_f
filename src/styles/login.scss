@@ -1,0 +1,58 @@
+/* src/Login.scss */
+.top {
+    padding-top: 50px;
+  }
+  .sub-login {
+    padding: 20px;
+  }
+  .container-xm {
+    max-width: 400px;
+    margin: auto;
+  }
+  .sub-logo {
+    margin-bottom: 20px;
+  }
+  .container-login {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .form-wrp {
+    margin-bottom: 15px;
+  }
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+  }
+  .is-invalid {
+    border-color: red;
+  }
+  .invalid-feedback {
+    display: none;
+  }
+  .is-invalid + .invalid-feedback {
+    display: block;
+  }
+  .btn {
+    width: 100%;
+    padding: 10px;
+  }
+  .btn-skew p {
+    margin: 0;
+  }
+  .list-split {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .list-split li {
+    margin: 5px 0;
+  }
+  .btn-wh {
+    background-color: white;
+    color: black;
+  }
+  
