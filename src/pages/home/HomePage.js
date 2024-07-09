@@ -1,9 +1,12 @@
 import axios from 'axios';
 import React from 'react'
+import { RootUrl } from '../../api/RootUrl';
+
+
 
 const HomePage = () => {
 
-  axios.get(`http://localhost:8080/pokeguide/users`)
+  axios.get(`${RootUrl}/users`)
   .then((data) => {
     console.log(data)
   }).catch((err) => {
