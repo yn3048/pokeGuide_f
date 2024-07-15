@@ -1,4 +1,4 @@
-export const RootUrl = () => {
-    return 'http://localhost:8080/pokeguide';
-    //return 'http://3.36.119.194:8080/pokeguide';
-};
+const serverHost = "127.0.0.1";
+// const serverHost = '3.34.158.6';
+
+export const RootUrl = `http://${serverHost}:8080`;
