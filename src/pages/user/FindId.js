@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { SEND_EMAIL_CODE_PATH, FINDID_PATH, CHECK_EMAIL_CODE_PATH, SEND_FINDID_EMAIL_CODE_PATH } from '../../requestPath';
 import { Link } from 'react-router-dom';
-import { confirmFindIdCode, requestFindIdCode } from '// ../UserApi';
+import { confirmFindIdCode, requestFindIdCode } from '../../api/UserApi';
 
 const FindId = () => {
     const [showVerificationCodeSection, setShowVerificationCodeSection] = useState(false);
