@@ -4,8 +4,11 @@
 //애플리케이션당 하나의 store만 사용하기
 //중간자 역할
 
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
+import authSlice from './slices/authSlice';
 
 export default configureStore({
-  reducer: { }
-})
+    reducer: {
+        authSlice: authSlice,
+    },
+});

@@ -77,10 +77,10 @@ const LoginPage = () => {
                             {error && <div className="text-danger mt-2">{error}</div>}
                         </form>
                         <ul className="list-split">
-                            <li><a href="/member/forgotid">아이디 찾기</a></li>
-                            <li><a href="/member/password">비밀번호 변경</a></li>
+                            <li><a href="/user/FindId">아이디 찾기</a></li>
+                            <li><a href="/user/FindPass">비밀번호 변경</a></li>
                         </ul>
-                        <a href="/member/apply" className="btn btn-round btn-sm btn-wh">아직 회원이 아니신가요? <i className="icon-go"></i></a>
+                        <a href="/user/Terms" className="btn btn-round btn-sm btn-wh">아직 회원이 아니신가요? <i className="icon-go"></i></a>
                     </div>
                 </div>
             </section>
