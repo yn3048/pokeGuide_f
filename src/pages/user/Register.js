@@ -3,18 +3,23 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { CHECK_EMAIL_CODE_PATH, SEND_EMAIL_CODE_PATH, USER_PATH } from '../../requestPath';
 import { registerUser, sendUserEmailCode, checkEmailCode } from '../../api/UserApi'; // 경로 수정
+import '../../styles/register.scss'
 
 const Register = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState({
         uid: '',
-        pass: '',
+        pass: '',   
         pass2: '',
         name: '',
         email: '',
         role: 'USER',
         grade: 'FREE',
         verificationCode: '',
+        nick: '',
+        hp: '',
+        gender: '',
+        address: ''
     });
     const [errors, setErrors] = useState({
         uid: '',
@@ -23,6 +28,10 @@ const Register = () => {
         name: '',
         email: '',
         verificationCode: '',
+        nick: '',
+        hp: '',
+        gender: '',
+        address: ''
     });
 
     const [passwordType, setPasswordType] = useState('password');
@@ -74,6 +83,19 @@ const Register = () => {
                     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
                 errorMessage = !emailPattern.test(value) ? '올바른 이메일 주소를 입력해주세요.' : '';
                 break;
+            case 'hp':
+                const hpPattern = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+                errorMessage = !hpPattern.test(value) ? '올바른 전화번호를 입력해주세요.' : '';
+                break;
+            case 'nick':
+                errorMessage = value.length < 2 ? '닉네임은 2자 이상 입력하셔야 합니다.' : '';
+                break;
+            case 'address':
+                errorMessage = value.length < 5 ? '주소는 5자 이상 입력하셔야 합니다.' : '';
+                break;
+            case 'gender':
+                errorMessage = value !== 'male' && value !== 'female' ? '성별을 올바르게 선택해주세요.' : '';
+                break;
             default:
                 break;
         }
@@ -109,12 +131,12 @@ const Register = () => {
         setErrors((prevErrors) => ({ ...prevErrors, [e.target.name]: '' }));
     };
     /** 인증코드 전송 버튼 */
-    const sendUserEmailCodeHandler = () => {
-        sendUserEmailCode(user.email, setServerCode, setShowVerification);
+    const sendUserEmailCodeHandler = async () => {
+       await sendUserEmailCode(user.email, setServerCode, setShowVerification);
     }
     /** 인증코드 확인 버튼 */
     const checkEmailCodeHandler = () => {
-        checkEmailCode(serverCode, user.verificationCode);
+        checkEmailCode(serverCode, user.verificationCode);  
         setEmailOk(true);
     }
     
@@ -182,6 +204,48 @@ const Register = () => {
                                 value={user.name}
                             />
                             <span className="error-message">{errors.name}</span>
+                            <label htmlFor="nick">닉네임</label>
+                            <input
+                                type="text"
+                                name="nick"
+                                placeholder="닉네임을 입력하세요."
+                                onBlur={handleBlur}
+                                onChange={changeHandler}
+                                value={user.nick}
+                            />
+                            <span className="error-message">{errors.nick}</span>
+                            <label htmlFor="hp">전화번호</label>
+                            <input
+                                type="text"
+                                name="hp"
+                                placeholder="전화번호를 입력하세요."
+                                onBlur={handleBlur}
+                                onChange={changeHandler}
+                                value={user.hp}
+                            />
+                            <span className="error-message">{errors.hp}</span>
+                            <label htmlFor="gender">성별</label>
+                            <select
+                                name="gender"
+                                onBlur={handleBlur}
+                                onChange={changeHandler}
+                                value={user.gender}
+                            >
+                                <option value="">성별을 선택하세요</option>
+                                <option value="male">M</option>
+                                <option value="female">F</option>
+                            </select>
+                            <span className="error-message">{errors.gender}</span>
+                            <label htmlFor="address">주소</label>
+                            <input
+                                type="text"
+                                name="address"
+                                placeholder="주소를 입력하세요."
+                                onBlur={handleBlur}
+                                onChange={changeHandler}
+                                value={user.address}
+                            />
+                            <span className="error-message">{errors.address}</span>
                             <label htmlFor="email">이메일</label>
                             <div className="email-input-container">
                                 <input
@@ -200,18 +264,18 @@ const Register = () => {
                             <span className="error-message">{errors.email}</span>
 
                             {showVerification && (
-                                <div className="verification-code-container">
-                                    <input
-                                        type="text"
-                                        name="verificationCode"
-                                        placeholder="인증코드를 입력하세요."
-                                        onBlur={handleBlur}
-                                        onChange={changeHandler}
-                                        value={user.verificationCode}
-                                    />
-                                    <button className="email-verify" type="button" onClick={checkEmailCodeHandler}>
-                                        인증코드 확인
-                                    </button>
+                            <div className="form-group verification-code-container">
+                                <input
+                                    type="text"
+                                    name="verificationCode"
+                                    placeholder="인증코드를 입력하세요."
+                                    onBlur={handleBlur}
+                                    onChange={changeHandler}
+                                    value={user.verificationCode}
+                                />
+                                <button className="email-verify" type="button" onClick={checkEmailCodeHandler}>
+                                    인증코드 확인
+                                </button>
                                 </div>
                             )}
                             <button type="submit">회원가입</button>

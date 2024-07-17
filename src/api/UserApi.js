@@ -17,24 +17,25 @@ export const selectTerms = async (TERMS_PATH, setTerms) => {
 };
 
 /* 회원가입 인증코드 전송 버튼 */
-export const sendUserEmailCode = (email, setServerCode, setShowVerification) => {
-   axios
-      .post(SEND_EMAIL_CODE_PATH, { email})
-      .then((response) => {
-          if (response.data.result === 1) {
-              console.log('코드전송 response.data:', response.data);
-              return;
-          } else {
-              alert('인증코드가 이메일로 전송되었습니다.');
-              setServerCode(response.data.code); // 서버로부터 받은 암호화된 코드 저장
-              setShowVerification(true);
-          }
-      })
-      .catch((err) => {
-          console.log(err);
-          alert('이메일이 중복되었습니다. 다른 이메일을 사용해주세요.');
-      });
+export const sendUserEmailCode = async (email, setServerCode, setShowVerification) => {
+    try {
+        const response = await axios.post(SEND_EMAIL_CODE_PATH, { email });
+        if (response.data.result === 1) {
+            console.log('코드전송 response.data:', response.data);
+            alert('이메일이 중복되었습니다. 다른 이메일을 사용해주세요.');
+            return;
+        } else {
+            alert('인증코드가 이메일로 전송되었습니다.');
+            setServerCode(response.data.code); // 서버로부터 받은 암호화된 코드 저장
+            setShowVerification(true);
+        }
+    } catch (err) {
+        console.log('이메일 코드 전송 오류:', err);
+        alert('이메일 코드 전송에 실패했습니다. 다시 시도해주세요.');
+    }
 };
+
+
 
 /** 인증코드 확인 버튼 */
 export const checkEmailCode = (serverCode, verificationCode) => {
@@ -56,8 +57,8 @@ export const checkEmailCode = (serverCode, verificationCode) => {
 };
 
 /* 모든 유효성 검사 통과하면 회원가입 */
-export const registerUser = (USER_PATH, user, navigate) => {
-      axios
+export const registerUser = async (USER_PATH, user, navigate) => {
+      await axios
           .post(USER_PATH, user)
           .then((response) => {
               console.log(response.data);
