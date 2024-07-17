@@ -6,7 +6,7 @@ import { RootUrl } from '../../api/RootUrl';
 
 const LoginPage = () => {
     const [uid, setUid] = useState('');
-    const [password, setPassword] = useState('');
+    const [pass, setPass] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -14,9 +14,9 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true);
-        if (uid && password) {
+        if (uid && pass) {
             try {
-                const response = await axios.post(`${RootUrl}/user/login`, { uid, password });
+                const response = await axios.post(`${RootUrl}/user/login`, { uid, pass });
                 const { accessToken, refreshToken } = response.data;
 
                 localStorage.setItem('accessToken', accessToken);
@@ -60,12 +60,12 @@ const LoginPage = () => {
                                 <label htmlFor="password" className="sr-only"></label>
                                 <input 
                                     type="password" 
-                                    className={`form-control ${submitted && !password ? 'is-invalid' : ''}`} 
+                                    className={`form-control ${submitted && !pass ? 'is-invalid' : ''}`} 
                                     name="password" 
                                     id="password" 
                                     placeholder="비밀번호" 
-                                    value={password} 
-                                    onChange={(e) => setPassword(e.target.value)} 
+                                    value={pass} 
+                                    onChange={(e) => setPass(e.target.value)} 
                                     required 
                                     aria-required="true" 
                                 />
