@@ -8,6 +8,8 @@ import Terms from "../pages/user/Terms";
 import Register from "../pages/user/Register";
 import FindId from "../pages/user/FindId";
 import FindPass from "../pages/user/FindPass";
+import ChatRoom from "../components/chat/ChatRoom";
+import ChatRoomList from "../components/chat/ChatRoomList";
 
 //router 생성
 const root = createBrowserRouter([
@@ -26,6 +28,11 @@ const root = createBrowserRouter([
 
     // admin
     {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
+
+    // chat
+    { path: "/chatrooms", element: <ChatRoomList /> },
+    { path: "/chatroom/:chatNo", element: <ChatRoom /> },
+
 ]);
 
 export default root;
