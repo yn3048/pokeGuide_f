@@ -1,0 +1,81 @@
+.header {
+    border-bottom: 1px solid yellowgreen;
+    height: 130px;
+    width: 100%;
+    color: red;
+    background-color: lightyellow;
+
+}
+
+.sidebar {
+    display: inline-block;
+    width: 300px;
+    height: 900px;
+    border-right: 1px solid yellowgreen;
+    border-bottom: 1px solid yellowgreen;
+    background-color: lightyellow;
+
+}
+
+.sidebar a {
+    display: block;
+    margin: 0px;
+    padding-left: 20px;
+    padding-top: 10px;
+    text-decoration: none;
+    color: rgb(38, 141, 175);
+    font-size: 20px;
+}
+
+.sidebar a:nth-child(1) img {
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 10px;
+    height: 22px;
+    width: 22px;
+}
+
+.main {
+    display: inline-block;
+    border: 1px solid red;
+    height: 900px;
+    width: 1000px;
+    padding-left: 20px;
+}
+
+.main p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.userList {
+    border: 1px solid red;
+    margin-top: 20px;
+}
+
+.userList .title,
+.userList .content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.userList .title div,
+.userList .content div {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+}
+
+.userList .title {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.userList .content div {
+    border-right: 1px solid black;
+    border-bottom: 1px solid blue;
+}
+
+.userList .content div:last-child {
+    border-right: none;
+}

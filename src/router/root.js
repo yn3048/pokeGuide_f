@@ -8,6 +8,7 @@ import Terms from "../pages/user/Terms";
 import Register from "../pages/user/Register";
 import FindId from "../pages/user/FindId";
 import FindPass from "../pages/user/FindPass";
+import UserlistPage from "../pages/admin/UserListPage";
 
 //router 생성
 const root = createBrowserRouter([
@@ -26,6 +27,7 @@ const root = createBrowserRouter([
 
     // admin
     {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
+    {path: "/admin/userlist", element:<UserlistPage/>}//관리자 - 회원관리
 ]);
 
 export default root;
