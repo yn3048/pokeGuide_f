@@ -1,20 +1,23 @@
+.wrap {
+    display: grid;
+    grid-template-rows: 130px auto; /* 헤더의 높이와 나머지 영역 */
+    grid-template-columns: 300px 1fr; /* 사이드바와 메인 영역 */
+    height: 900px; /* 전체 높이 설정 */
+}
+
 .header {
     border-bottom: 1px solid yellowgreen;
     height: 130px;
     width: 100%;
     color: red;
     background-color: lightyellow;
-
+    grid-column: 1 / span 2; /* 전체 너비를 차지하도록 설정 */
 }
 
 .sidebar {
-    display: inline-block;
     width: 300px;
-    height: 900px;
-    border-right: 1px solid yellowgreen;
-    border-bottom: 1px solid yellowgreen;
+    height: 100%; /* 사이드바 높이 전체 */
     background-color: lightyellow;
-
 }
 
 .sidebar a {
@@ -25,9 +28,10 @@
     text-decoration: none;
     color: rgb(38, 141, 175);
     font-size: 20px;
+    position: relative;
 }
 
-.sidebar a:nth-child(1) img {
+.sidebar a img {
     position: absolute;
     margin-top: 2px;
     margin-left: 10px;
@@ -36,11 +40,8 @@
 }
 
 .main {
-    display: inline-block;
-    border: 1px solid red;
-    height: 900px;
-    width: 1000px;
     padding-left: 20px;
+    height: 100%; /* 메인 영역 높이 전체 */
 }
 
 .main p {
@@ -49,14 +50,14 @@
 }
 
 .userList {
-    border: 1px solid red;
     margin-top: 20px;
+    width:1100px;
 }
 
 .userList .title,
 .userList .content {
     display: flex;
-    justify-content: space-between;
+    border-bottom: 1px solid black; /* 제목과 내용 사이에 경계선 */
 }
 
 .userList .title div,
@@ -71,11 +72,27 @@
     font-weight: bold;
 }
 
-.userList .content div {
-    border-right: 1px solid black;
-    border-bottom: 1px solid blue;
+.userList .content {
+    flex-direction: column; /* 사용자 정보 블록을 수직으로 나열 */
 }
 
-.userList .content div:last-child {
-    border-right: none;
+.userList .content > div {
+    display: flex;
+    border-top: 1px solid silver; /* 각 사용자 정보 블록 상단 경계선 */
+}
+
+.userList .content div > div {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+}
+
+.allDel{
+    position: absolute;
+    color: white;
+    background-color: yellowgreen;
+    border: none;
+    padding: 7px;
+    margin-top: 10px;
+    right: 100px;
 }
