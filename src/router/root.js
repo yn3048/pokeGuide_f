@@ -9,6 +9,12 @@ import Register from "../pages/user/Register";
 import FindId from "../pages/user/FindId";
 import FindPass from "../pages/user/FindPass";
 
+import UserlistPage from "../pages/admin/UserListPage";
+
+import ChatRoom from "../components/chat/ChatRoom";
+import ChatRoomList from "../components/chat/ChatRoomList";
+
+
 //router 생성
 const root = createBrowserRouter([
     {path: "/", element: <HomePage />}, // 홈 화면
@@ -26,6 +32,14 @@ const root = createBrowserRouter([
 
     // admin
     {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
+
+    {path: "/admin/userlist", element:<UserlistPage/>}//관리자 - 회원관리
+
+
+    // chat
+    { path: "/chatrooms", element: <ChatRoomList /> },
+    { path: "/chatroom/:chatNo", element: <ChatRoom /> },
+
 ]);
 
 export default root;
