@@ -37,8 +37,8 @@ const root = createBrowserRouter([
 
 
     // chat
-    { path: "/chatrooms", element: <ChatRoomList /> },
-    { path: "/chatroom/:chatNo", element: <ChatRoom /> },
+    { path: "/chat/chatrooms", element: <ChatRoomList /> },
+    { path: "/chat/chatroom/:chatNo", element: <ChatRoom /> },
 
 ]);
 
