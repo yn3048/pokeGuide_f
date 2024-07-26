@@ -32,13 +32,13 @@ const root = createBrowserRouter([
 
     // admin
     {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
+    {path: "/admin/userlist", element:<UserlistPage/>},//관리자 - 회원관리
 
-    {path: "/admin/userlist", element:<UserlistPage/>}//관리자 - 회원관리
 
 
     // chat
-    { path: "/chatrooms", element: <ChatRoomList /> },
-    { path: "/chatroom/:chatNo", element: <ChatRoom /> },
+    { path: "/chat/chatrooms", element: <ChatRoomList /> },
+    { path: "/chat/chatroom/:chatNo", element: <ChatRoom /> },
 
 ]);
 

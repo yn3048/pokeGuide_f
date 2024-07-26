@@ -22,9 +22,12 @@ const Terms = () => {
   useEffect(() => {
     axios.get(RootUrl + "/user/Terms").then((response) => {
       console.log(response.data);
-      setTermsContent(response.data.terms);
-      setPrivacyContent(response.data.privacy);
-      setSmsContent(response.data.sms);
+      if (response.data && response.data.length > 0) {
+        const data = response.data[0];
+        setTermsContent(data.terms);
+        setPrivacyContent(data.privacy);
+        setSmsContent(data.sms);
+      }
     });
   }, []);
 
