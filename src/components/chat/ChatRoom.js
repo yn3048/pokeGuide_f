@@ -9,7 +9,7 @@ const ChatRoom = ({ currentUser }) => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const wsUrl = RootUrl.replace(/^http/, 'ws') + `/chattings/${chatNo}`;
+    const wsUrl = RootUrl.replace(/^http/, 'ws') + `/chat/${chatNo}`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
@@ -48,6 +48,8 @@ const ChatRoom = ({ currentUser }) => {
         sName: 'storedName', // 실제 저장된 파일명이 필요하다면 추가
         cDate: new Date().toISOString()
       };
+
+   
 
       // Send message via WebSocket
       socket.send(JSON.stringify(chatMessage));
