@@ -65,7 +65,7 @@ const authSlice = createSlice({
       // 프로필 정보 업데이트 액션
       const updateData = action.payload;
 
-      state.uid = updateData.uid;
+      state.uid = updateData.uid; 
       state.nick = updateData.nick;
       state.profile = updateData.profile;
       state.email = updateData.email;
