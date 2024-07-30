@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import '../../styles/admin.scss';
-import { postUserList } from '../../api/AdminApi';
+import {getUserDel, postChangeRole, postUserList } from '../../api/AdminApi';
+import { getCookie } from '../../util/cookieUtil';
+
 
 const UserListPage = () => {
 
+  const auth = getCookie("auth");
+
   const [list,setList] = useState([]);
+  const [role,setRole] = useState([]);
+  const formData = new FormData();
 
   //무한스크롤 적용해보기
 
@@ -23,6 +29,42 @@ const UserListPage = () => {
     userList(); 
 
   },[]);  
+
+  const allUserDel = async ()=>{
+
+    if(window.confirm("정말 삭제하시겠습니까?")){
+      
+      const result = await getUserDel();
+
+      if(result){
+        alert("삭제되었습니다.");
+        console.log("유저 모두 삭제 완료");
+      }else{
+        alert("삭제에 실패했습니다.");
+        console.log("유저 삭제 실패");
+      }
+
+    }      
+
+  }
+
+  const onChangeRole = async (e)=>{
+   
+    const Role = e.target.value;
+    const Uid = e.target.dataset.id;
+
+    console.log("Uid : ",Uid);
+
+    formData.append("role",Role);
+    formData.append("uid",Uid);
+
+    console.log("Role",Role);
+
+    setRole(Role);
+
+    await postChangeRole(formData);
+
+  }
 
 
 
@@ -66,11 +108,11 @@ const UserListPage = () => {
               <div>{item.gender}</div>
               <div>{item.email}</div>
               <div>{item.createDate}</div>
-              <div>5</div>
+              <div>{item.visitCount}</div>
               <div>
-                <select>
-                  <option>{item.role}</option>
-                  {item.role==="USER"?(<option>ADMIN</option>):(<option>USER</option>)}
+                <select name = "userRole" data-id={item.uid} onChange={onChangeRole}>
+                  <option value={item.role}>{item.role}</option>
+                  {item.role==="USER"?(<option value="ADMIN">ADMIN</option>):(<option value="USER">USER</option>)}
                 </select>
                 </div>
               <div>삭제/정지</div>
@@ -80,7 +122,7 @@ const UserListPage = () => {
 
         </div>
 
-        <button className='allDel'>전체삭제</button>
+        <button onClick={allUserDel} className='allDel'>전체삭제</button>
 
       </div>
     </div>

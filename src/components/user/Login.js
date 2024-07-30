@@ -3,6 +3,8 @@ import '../../styles/login.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { RootUrl } from '../../api/RootUrl';
+import { useDispatch } from 'react-redux';
+import { login } from '../../slices/authSlice';
 
 const LoginPage = () => {
     const [uid, setUid] = useState('');
@@ -10,6 +12,7 @@ const LoginPage = () => {
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,6 +24,8 @@ const LoginPage = () => {
 
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
+
+                dispatch(login(response.data));
 
                 navigate('/main');
             } catch (error) {
