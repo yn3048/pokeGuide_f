@@ -10,3 +10,18 @@ export const postUserList = async () => {
 
     return response.data;
 };
+
+export const getUserDel = async () => {
+
+    const response = await axios.get(`${rootURL}/allUserDel`);
+
+    return response.data;
+};
+
+export const postChangeRole = async (data) => {
+
+    const response = await axios.post(`${rootURL}/changeRole`,data);
+
+    return response.data;
+};
+

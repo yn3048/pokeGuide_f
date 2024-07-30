@@ -22,7 +22,7 @@ const root = createBrowserRouter([
     {path: "/main", element:<MainPage />}, // 메인 대시보드 
     {path: "/main", element:<ProtectedRoute><MainPage /></ProtectedRoute>},
     
-    // user
+    // userd
     {path: "/user/login", element:<LoginPage />}, // 로그인
     {path: "/user/Terms", element:<Terms />}, // 약관
     {path: "/user/register", element:<Register />}, // 회원가입
