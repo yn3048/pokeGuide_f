@@ -25,3 +25,21 @@ export const postChangeRole = async (data) => {
     return response.data;
 };
 
+
+
+export const deleteUser = async (data) => {
+
+    const response = await axios.get(`${rootURL}/delUser?uid=${data}`);
+
+    return response.data;
+};
+
+
+
+export const userStop = async (data) => {
+
+    const response = await axios.get(`${rootURL}/userStop?uid=${data}`);
+
+    return response.data;
+};
+
