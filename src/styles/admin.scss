@@ -58,6 +58,7 @@
 .userList .content {
     display: flex;
     border-bottom: 1px solid black; /* 제목과 내용 사이에 경계선 */
+    font-size: 13px;
 }
 
 .userList .title div,
@@ -104,4 +105,39 @@
     color: white;
     border: none;
 
+}
+
+//검색
+
+.search{
+    display: flex;
+    position: relative;
+    margin-left: 845px;
+
+}
+
+.searchCate{
+    padding: 5px;
+    display: inline-block;
+    border: 1px solid gray;
+}
+
+
+.searchContent{
+    
+    padding: 5px;
+    border: 1px solid gray;
+    display: inline-block;
+
+}
+
+.searchBtn{
+
+    padding: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: yellowgreen;
+    color: white;
+    border: none;
+    cursor: pointer;
 }

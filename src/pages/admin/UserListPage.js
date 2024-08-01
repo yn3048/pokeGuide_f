@@ -1,20 +1,123 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../../styles/admin.scss';
-import { getUserDel, postChangeRole, postUserList,deleteUser, userStop} from '../../api/AdminApi';
+import { getUserDel, postChangeRole, postUserList, deleteUser, userStop, searchKeyword, allUserList } from '../../api/AdminApi';
 import XLSX from 'xlsx-js-style';
+import { useLocation } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
+{/*
+const initState = {
+  dtoList: [],
+  cate: null,
+  length:0,
+  pg: 0,
+  size: 0,
+  total: 0,
+  startNo: 0,
+  start: 0,
+  end: 0,
+  prev: false,
+  next: false,
+};*/}
 
 const UserListPage = () => {
 
-  const [list, setList] = useState([]);
+  //const [list, setList] = useState(initState);
+  const [memberList, setMemberList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [searchUser, setSearchUser] = useState(''); // 검색 입력 처리
+  const [searchQuery, setSearchQuery] = useState(''); // 검색어 저장
   const [role, setRole] = useState([]);
   const formData = new FormData();
+  const params = new FormData();
+  
 
-  //무한스크롤 적용해보기
+  const [search, setSearch] = useState({
+    searchCate: "uid",
+    keyword: ""
+  });
 
-  const userList = async () => {
 
-    const result = await postUserList();
+  // 회원 데이터 가져오기
+  const fetchData = async (page, query) => {
+    try {
+
+      setLoading(true);
+
+      console.log("page : ",page);
+      console.log("search",query); 
+      
+      params.append("pg", page);
+      params.append(search, query);
+
+      const response = await postUserList(params);
+
+      const newMembers = response.dtoList;
+
+      console.log("출력할 데이터 보기 : ",newMembers);
+
+      setMemberList((prevList) => {
+        if (page === 1) {
+          return newMembers; // 페이지가 1일 때 전체 교체
+        } else {
+          //return [...prevList, ...newMembers]; // 페이지가 1이 아닐 때 추가
+          const existingIds = new Set(prevList.map(item => item.uid));
+        return [...prevList, ...newMembers.filter(item => !existingIds.has(item.uid))];//반복되는 결과는 없애기
+        }
+      });
+
+      if (newMembers.length<5) {
+        // 남은 길이가 5이하면 그만 불러오기
+        console.log("배열의 길이 : ",newMembers.length);
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error('유저를 불러오는데 실패했습니다.', error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage, searchQuery);
+  }, [currentPage, searchQuery]);
+
+  const searchChange = (e) => {
+    setSearchUser(e.target.value);
+  };
+
+  // 검색 후 페이지 reload
+  /*const search = () => {
+      setCurrentPage(1);
+      setHasMore(true);
+      setSearchQuery(searchUser);
+      setMemberList([]); // 새로운 검색 시 이전 검색 결과를 초기화
+  };*/
+
+  // enter key 로 검색하기
+  const keydown = (e) => {
+    if (e.key === 'Enter') {
+      search();
+    }
+  };
+
+  const fetchMoreData = () => {
+    if (!loading && hasMore) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+
+
+
+  {/*const userList = async () => {
+
+    const result = await postUserList(pageRequest);
 
     setList(result);
 
@@ -22,11 +125,12 @@ const UserListPage = () => {
 
   }
 
+
   useEffect(() => {
-
     userList();
-
   }, []);
+
+  */}
 
   const allUserDel = async () => {//모든 유저 삭제
 
@@ -41,9 +145,7 @@ const UserListPage = () => {
         alert("삭제에 실패했습니다.");
         console.log("유저 삭제 실패");
       }
-
     }
-
   }
 
   const delUser = async (e) => {//하나의 유저만 삭제
@@ -65,9 +167,7 @@ const UserListPage = () => {
         console.log("유저 삭제 실패");
 
       }
-
     }
-
   }
 
   const stopUser = async (e) => {//유저 상태 정지
@@ -76,20 +176,19 @@ const UserListPage = () => {
 
     if (window.confirm('유저를 정지시키겠습니까?')) {
 
-      alert("유저가 정지 되었습니다.");
-
       const result = await userStop(uid);
 
       if (result) {
 
-        alert("삭제되었습니다.");
-        console.log("유저 삭제 완료");
+        alert("유저가 정지 되었습니다.");
+        console.log("유저 정지 완료");
+        //userList();
 
       } else {
 
-        alert("삭제에 실패했습니다.");
-        console.log("유저 삭제 실패");
-        
+        alert("유저 정지에 실패하였습니다.");
+        console.log("유저 정지 실패");
+
       }
     }
 
@@ -100,16 +199,47 @@ const UserListPage = () => {
     const Role = e.target.value;
     const Uid = e.target.dataset.id;
 
-    console.log("Uid : ", Uid);
+    if (window.confirm('권한을 변경하시겠습니까?')) {
 
-    formData.append("role", Role);
-    formData.append("uid", Uid);
+      console.log("Uid : ", Uid);
 
-    console.log("Role", Role);
+      formData.append("role", Role);
+      formData.append("uid", Uid);
 
-    setRole(Role);
+      console.log("Role", Role);
 
-    await postChangeRole(formData);
+      setRole(Role);
+
+      await postChangeRole(formData);
+
+      alert('권한이 변경되었습니다.');
+    }
+
+  }
+
+  const searchContent = (e) => {
+
+    const { name, value } = e.target;
+    setSearch(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+
+    console.log(search.keyword);
+    console.log(search.searchCate);
+  }
+
+  const submitSearch = async () => {
+
+    console.log("넘겨야하는 값1 : ", search.keyword);
+    console.log("넘겨야하는 값2 : ", search.searchCate);
+
+    const result = await searchKeyword(search);
+
+    //setList(result);
+
+    console.log("검색 결과값 : ", result);
+
 
   }
 
@@ -118,7 +248,7 @@ const UserListPage = () => {
       console.log('excelDown 호출');
 
       // 서버에서 직원 리스트 가져오기
-      const res = await postUserList();
+      const res = await allUserList();
       const excelData = res;
       console.log(excelData);
 
@@ -190,6 +320,7 @@ const UserListPage = () => {
 
 
 
+
   return (
     <div className="wrap">
 
@@ -205,49 +336,67 @@ const UserListPage = () => {
 
       <div className='main'>
         <p>회원 목록</p>
-
-        <div className='userList'>
-
-          <div className='title'>
-            <div>번호</div>
-            <div>이름</div>
-            <div>닉네임</div>
-            <div>성별</div>
-            <div>이메일</div>
-            <div>가입일</div>
-            <div>방문횟수</div>
-            <div>권한</div>
-            <div>상태</div>
-            <div>관리</div>
-
-          </div>
-
-          <div className='content'>
-            {list.map((item, index) => (
-              <div key={index}>
-                <div>{index + 1}</div>
-                <div>{item.name}</div>
-                <div>{item.nick}</div>
-                <div>{item.gender}</div>
-                <div>{item.email}</div>
-                <div>{item.createDate}</div>
-                <div>{item.visitCount}</div>
-                <div>
-                  <select name="userRole" data-id={item.uid} onChange={onChangeRole}>
-                    <option value={item.role}>{item.role}</option>
-                    {item.role === "USER" ? (<option value="ADMIN">ADMIN</option>) : (<option value="USER">USER</option>)}
-                  </select>
-                </div>
-                <div>{item.status}</div>
-                <div style={{ cursor: 'pointer' }}>
-                  <a data-uid={item.uid} onClick={delUser}>삭제 / </a>
-                  <a data-user={item.uid} onClick={stopUser}>정지</a>
-                </div>
-              </div>))}
-
-          </div>
-
+        <div className='search'>
+          <select name="searchCate" onClick={searchContent} className='searchCate'>
+            <option value="uid">아이디</option>
+            <option value="name">이름</option>
+            <option value="nick">닉네임</option>
+          </select>
+          <input name="keyword" onChange={searchContent} className='searchContent' placeholder='검색어를 입력하세요' />
+          <button onClick={submitSearch} className='searchBtn'>검색</button>
         </div>
+
+        <InfiniteScroll
+          dataLength={memberList.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>검색 중...</h4>}
+          endMessage={<p>검색이 완료 되었습니다.</p>}
+        >
+          <div className='userList'>
+
+            <div className='title'>
+              <div>번호</div>
+              <div>아이디</div>
+              <div>이름</div>
+              <div>닉네임</div>
+              <div>성별</div>
+              <div>이메일</div>
+              <div>가입일</div>
+              <div>방문횟수</div>
+              <div>권한</div>
+              <div>상태</div>
+              <div>관리</div>
+
+            </div>
+
+            <div className='content'>
+              {memberList && memberList.map((item, index) => (
+                <div key={index}>
+                  <div>{index + 1}</div>
+                  <div>{item.uid}</div>
+                  <div>{item.name}</div>
+                  <div>{item.nick}</div>
+                  <div>{item.gender}</div>
+                  <div>{item.email}</div>
+                  <div>{item.createDate}</div>
+                  <div>{item.visitCount}</div>
+                  <div>
+                    <select name="userRole" data-id={item.uid} onChange={onChangeRole}>
+                      <option value={item.role}>{item.role}</option>
+                      {item.role === "USER" ? (<option value="ADMIN">ADMIN</option>) : (<option value="USER">USER</option>)}
+                    </select>
+                  </div>
+                  <div>{item.status}</div>
+                  <div style={{ cursor: 'pointer' }}>
+                    <a data-uid={item.uid} onClick={delUser}>삭제 / </a>
+                    <a data-user={item.uid} onClick={stopUser}>정지</a>
+                  </div>
+                </div>))}
+            </div>
+          </div>
+        </InfiniteScroll>
+        {loading && <p>Loading...</p>}
 
         <button style={{ cursor: 'pointer' }} onClick={allUserDel} className='allDel'>전체삭제</button>
         <button style={{ cursor: 'pointer' }} onClick={excelDown} className='downExcell'>엑셀다운</button>

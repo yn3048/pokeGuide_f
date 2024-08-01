@@ -4,8 +4,6 @@ import { RootUrl } from '../../api/RootUrl';
 import { Link } from 'react-router-dom';
 
 
-
-
 const HomePage = () => {
 
   axios.get(`${RootUrl}/users`)
