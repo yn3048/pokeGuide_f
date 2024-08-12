@@ -84,6 +84,8 @@ const ChatRoom = () => {
         }
     };
 
+
+
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             sendMessage();
@@ -92,35 +94,33 @@ const ChatRoom = () => {
     };
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0], () => {
-        });
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('uid', currentUser.uid);
+        formData.append('chatNo', chatNo);
+    
+        fetch(`${RootUrl}/upload`, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('File uploaded:', data);
+            const chatMessage = { message: data.imageUrl, uid: currentUser.uid, chatNo: chatNo };
+            socket.emit('chat message', chatMessage);
+            setMessages((prevMessages) => [...prevMessages, chatMessage]);
+        })
+        .catch(error => console.error('Error uploading file:', error));
     };
+    
 
-    useEffect(() => {
-        if (selectedFile) {
-            const formData = new FormData();
-            formData.append('file', selectedFile);
-            formData.append('uid', currentUser.uid);
-            formData.append('chatNo', chatNo);
 
-            fetch(`${RootUrl}/upload`, {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('File uploaded:', data);
-                const chatMessage = { message: data.imageUrl, uid: currentUser.uid, chatNo: chatNo };
-                socket.emit('chat message', chatMessage);
-                setMessages((prevMessages) => [...prevMessages, chatMessage]);
-            })
-            .catch(error => console.error('Error uploading file:', error));
-        }
-    }, [selectedFile, currentUser, chatNo]);
+
 
     const inviteFriend = () => {
         if (inviteUid.trim() === '') {
-            setInviteStatus('Please enter a valid UID.');
+            setInviteStatus('초대할 친구의 아이디를 입력하세요.');
             return;
         }
 
@@ -175,11 +175,20 @@ const ChatRoom = () => {
                 </div>
             )}
             <div className="chatroom-messages">
-                {messages.map((msg, index) => (
-                    <div key={index} className={`chatroom-message ${msg.uid === currentUser.uid ? 'own-message' : 'other-message'}`}>
-                        <span className="message-author">{msg.uid}</span>: <span className="message-content">{msg.message}</span>
-                    </div>
-                ))}
+            {messages.map((msg, index) => (
+    <div key={index} className={`chatroom-message ${msg.uid === currentUser.uid ? 'own-message' : 'other-message'}`}>
+        <span className="message-author">{msg.uid}</span>: 
+        {msg.message.endsWith('.png') || msg.message.endsWith('.jpg') || msg.message.endsWith('.jpeg') ? (
+            <a href={msg.message} download target="_blank" rel="noopener noreferrer">
+                <img src={msg.message} alt="uploaded file" className="message-image" />
+            </a>
+        ) : (
+            <span className="message-content">{msg.message}</span>
+        )}
+    </div>
+))}
+
+
                 <div ref={messagesEndRef} />
             </div>
             <div className="chatroom-input">
