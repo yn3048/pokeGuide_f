@@ -3,6 +3,8 @@ import '../../styles/main.scss';
 import { Link } from 'react-router-dom';
 
 const MainPage = () => {
+
+
   return (
     <div className="Main">
       <h2>메인 대시보드</h2>
