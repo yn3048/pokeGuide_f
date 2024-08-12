@@ -46,10 +46,18 @@ export const deleteUser = async (data) => {
 };
 
 
-
+//유저 정지
 export const userStop = async (data) => {
 
     const response = await axios.get(`${rootURL}/userStop?uid=${data}`);
+
+    return response.data;
+};
+
+//유저 활성화
+export const userActive = async (data) => {
+
+    const response = await axios.get(`${rootURL}/userActive?uid=${data}`);
 
     return response.data;
 };
