@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../../styles/admin.scss';
-import { getUserDel, postChangeRole, postUserList, deleteUser, userStop, searchKeyword, allUserList } from '../../api/AdminApi';
+import { getUserDel, postChangeRole, postUserList, deleteUser, userStop, searchKeyword, allUserList, userActive } from '../../api/AdminApi';
 import XLSX from 'xlsx-js-style';
 import { useLocation } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { ClipLoader } from "react-spinners";
+import { UserTable } from '../../components/admin/UserTable';
+import { SearchComponent } from '../../components/admin/SearchComponent';
 
 {/*
 const initState = {
@@ -39,18 +42,32 @@ const UserListPage = () => {
     keyword: ""
   });
 
+  //스피너 관련 정렬?(아래)
+
+  const override = {
+    display: "flex",
+    margin: "0 auto",
+    borderColor: "#E50915",
+    textAlign: "center",
+    setTimeout:3000,
+  };
+
 
   // 회원 데이터 가져오기
-  const fetchData = async (page, query) => {
+  const fetchData = async (page, keyword,searchCate) => {
+
+  
     try {
 
       setLoading(true);
 
       console.log("page : ",page);
-      console.log("search",query); 
+      console.log("keyword",keyword);
+      console.log("searchCate",searchCate); 
       
       params.append("pg", page);
-      params.append(search, query);
+      params.append("keyword", keyword);
+      params.append("searchCate", searchCate);
 
       const response = await postUserList(params);
 
@@ -141,6 +158,8 @@ const UserListPage = () => {
       if (result) {
         alert("삭제되었습니다.");
         console.log("유저 모두 삭제 완료");
+        setCurrentPage(1);
+        await fetchData(1, searchQuery);
       } else {
         alert("삭제에 실패했습니다.");
         console.log("유저 삭제 실패");
@@ -160,6 +179,8 @@ const UserListPage = () => {
 
         alert("삭제되었습니다.");
         console.log("유저 삭제 완료");
+        setCurrentPage(1);
+        await fetchData(1, searchQuery);
 
       } else {
 
@@ -182,8 +203,8 @@ const UserListPage = () => {
 
         alert("유저가 정지 되었습니다.");
         console.log("유저 정지 완료");
-        //userList();
-
+        setCurrentPage(1);
+        await fetchData(1, searchQuery);
       } else {
 
         alert("유저 정지에 실패하였습니다.");
@@ -191,7 +212,32 @@ const UserListPage = () => {
 
       }
     }
+  }
 
+  
+
+  const activeUser = async (e) => {//유저 상태 활성화
+
+    const uid = e.target.dataset.user;
+
+    if (window.confirm('유저를 활성화시키겠습니까?')) {
+
+      const result = await userActive(uid);
+
+      if (result) {
+
+        alert("유저가 활성화 되었습니다.");
+        console.log("유저 활성화 완료");
+        setCurrentPage(1);
+        await fetchData(1, searchQuery);
+
+      } else {
+
+        alert("유저 활성화에 실패하였습니다.");
+        console.log("유저 활성화 실패");
+
+      }
+    }
   }
 
   const onChangeRole = async (e) => {
@@ -234,13 +280,16 @@ const UserListPage = () => {
     console.log("넘겨야하는 값1 : ", search.keyword);
     console.log("넘겨야하는 값2 : ", search.searchCate);
 
-    const result = await searchKeyword(search);
 
-    //setList(result);
+    setCurrentPage(1);
+    setHasMore(true);
+    setMemberList([]);
+
+    const result = fetchData(currentPage,search.keyword,search.searchCate);
 
     console.log("검색 결과값 : ", result);
 
-
+    setMemberList(result);
   }
 
   const excelDown = async () => {
@@ -316,14 +365,11 @@ const UserListPage = () => {
     } catch (error) {
       console.error('Error occurred while downloading Excel', error);
     }
+
   };
-
-
-
 
   return (
     <div className="wrap">
-
       <div className='header'>
         <img src="../images/pokemon logo.png" />
       </div>
@@ -336,65 +382,26 @@ const UserListPage = () => {
 
       <div className='main'>
         <p>회원 목록</p>
-        <div className='search'>
-          <select name="searchCate" onClick={searchContent} className='searchCate'>
-            <option value="uid">아이디</option>
-            <option value="name">이름</option>
-            <option value="nick">닉네임</option>
-          </select>
-          <input name="keyword" onChange={searchContent} className='searchContent' placeholder='검색어를 입력하세요' />
-          <button onClick={submitSearch} className='searchBtn'>검색</button>
-        </div>
-
+        <SearchComponent searchContent={searchContent} submitSearch={submitSearch}/>
         <InfiniteScroll
           dataLength={memberList.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<h4>검색 중...</h4>}
-          endMessage={<p>검색이 완료 되었습니다.</p>}
+          loader={<ClipLoader
+            color="#E50915"
+            loading={loading}
+            cssOverride={override}
+            size={20}
+          />}
+          //endMessage={<p>end</p>}
         >
-          <div className='userList'>
-
-            <div className='title'>
-              <div>번호</div>
-              <div>아이디</div>
-              <div>이름</div>
-              <div>닉네임</div>
-              <div>성별</div>
-              <div>이메일</div>
-              <div>가입일</div>
-              <div>방문횟수</div>
-              <div>권한</div>
-              <div>상태</div>
-              <div>관리</div>
-
-            </div>
-
-            <div className='content'>
-              {memberList && memberList.map((item, index) => (
-                <div key={index}>
-                  <div>{index + 1}</div>
-                  <div>{item.uid}</div>
-                  <div>{item.name}</div>
-                  <div>{item.nick}</div>
-                  <div>{item.gender}</div>
-                  <div>{item.email}</div>
-                  <div>{item.createDate}</div>
-                  <div>{item.visitCount}</div>
-                  <div>
-                    <select name="userRole" data-id={item.uid} onChange={onChangeRole}>
-                      <option value={item.role}>{item.role}</option>
-                      {item.role === "USER" ? (<option value="ADMIN">ADMIN</option>) : (<option value="USER">USER</option>)}
-                    </select>
-                  </div>
-                  <div>{item.status}</div>
-                  <div style={{ cursor: 'pointer' }}>
-                    <a data-uid={item.uid} onClick={delUser}>삭제 / </a>
-                    <a data-user={item.uid} onClick={stopUser}>정지</a>
-                  </div>
-                </div>))}
-            </div>
-          </div>
+        <UserTable
+            memberList={memberList}
+            onChangeRole={onChangeRole}
+            stopUser={stopUser}
+            activeUser={activeUser}
+            delUser={delUser}
+          />
         </InfiniteScroll>
         {loading && <p>Loading...</p>}
 

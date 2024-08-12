@@ -49,46 +49,33 @@
     font-weight: bold;
 }
 
+
 .userList {
     margin-top: 20px;
     width:1150px;
+    height: 300px;
+    border-collapse: collapse; //셀 간격을 없앰
 }
 
-.userList .title,
-.userList .content {
-    display: flex;
-    border-bottom: 1px solid black; /* 제목과 내용 사이에 경계선 */
+.userList thead{
+    height: 30px;
+}
+
+.userList th,
+.userList td {
+    border-bottom: 1px solid black; // 제목과 내용 사이에 경계선
     font-size: 13px;
-}
-
-.userList .title div,
-.userList .content div {
-    flex: 1;
-    padding: 10px;
     text-align: center;
 }
 
-.userList .title {
+.userList th {
     background-color: #f0f0f0;
     font-weight: bold;
 }
 
-.userList .content {
-    flex-direction: column; /* 사용자 정보 블록을 수직으로 나열 */
-}
-
-.userList .content > div {
-    display: flex;
-    border-top: 1px solid silver; /* 각 사용자 정보 블록 상단 경계선 */
-}
-
-.userList .content div > div {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-}
 
 .allDel{
+    
     position: absolute;
     color: white;
     background-color: yellowgreen;
