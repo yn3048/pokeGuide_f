@@ -30,7 +30,7 @@ const root = createBrowserRouter([
     {path: "/user/FindPass", element:<FindPass />}, // 비번찾기
 
     // pokemons
-    {path: "/pokemons/list", element:<ListPage />}, // 포켓몬 목록
+    {path: "/poke/list", element:<ListPage />}, // 포켓몬 목록
 
     // admin
     {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드

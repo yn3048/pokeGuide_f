@@ -19,7 +19,7 @@ export const UserTable = ({memberList,onChangeRole,stopUser,activeUser,delUser})
               </tr>
             </thead>
             <tbody>
-              {memberList && memberList.map((user,index) => (
+              {Array.isArray(memberList) && memberList.length > 0 ?(memberList && memberList.map((user,index) => (
                 <tr key={user.uid}>
                   <td>{index+1}</td>
                   <td>{user.uid}</td>
@@ -46,7 +46,10 @@ export const UserTable = ({memberList,onChangeRole,stopUser,activeUser,delUser})
                     <button onClick={delUser} data-uid={user.uid}>삭제</button>
                   </td>
                 </tr>
-              ))}
+              ))):(<tr>
+                <td colSpan="11">자료가 없습니다.</td>
+              </tr>)}
+              
             </tbody>
           </table>
   )

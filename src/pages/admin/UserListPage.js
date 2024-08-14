@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ClipLoader } from "react-spinners";
 import { UserTable } from '../../components/admin/UserTable';
 import { SearchComponent } from '../../components/admin/SearchComponent';
-
+////////hasMore값이 true로 설정됨(출력할 값이 딱 5개이면) : undefine이면 hasMore를 false로 바꿔야함!!! 해결바람!
 {/*
 const initState = {
   dtoList: [],
@@ -32,10 +32,11 @@ const UserListPage = () => {
   const [loading, setLoading] = useState(false);
   const [searchUser, setSearchUser] = useState(''); // 검색 입력 처리
   const [searchQuery, setSearchQuery] = useState(''); // 검색어 저장
+  const [searchSubmit, setSearchSubmit] = useState(true);//검색버튼을 누르면 useEffect가 실행되게 하는 키
   const [role, setRole] = useState([]);
   const formData = new FormData();
   const params = new FormData();
-  
+
 
   const [search, setSearch] = useState({
     searchCate: "uid",
@@ -49,22 +50,20 @@ const UserListPage = () => {
     margin: "0 auto",
     borderColor: "#E50915",
     textAlign: "center",
-    setTimeout:3000,
+    setTimeout: 3000,
   };
 
 
   // 회원 데이터 가져오기
-  const fetchData = async (page, keyword,searchCate) => {
-
-  
+  const fetchData = async (page, keyword, searchCate) => {
     try {
 
       setLoading(true);
 
-      console.log("page : ",page);
-      console.log("keyword",keyword);
-      console.log("searchCate",searchCate); 
-      
+      console.log("page : ", page);
+      console.log("keyword", keyword);
+      console.log("searchCate", searchCate);
+
       params.append("pg", page);
       params.append("keyword", keyword);
       params.append("searchCate", searchCate);
@@ -73,23 +72,41 @@ const UserListPage = () => {
 
       const newMembers = response.dtoList;
 
-      console.log("출력할 데이터 보기 : ",newMembers);
+      console.log("출력할 데이터 보기 : ", newMembers);
+      console.log("출력할 데이터와 함께 currentPage보기 : ",currentPage);
 
       setMemberList((prevList) => {
-        if (page === 1) {
+
+        if(!newMembers){
+
+          return [];//빈 배열을 셋팅
+
+        }else if (page === 1) {
+          console.log("결과 값이 없을때 여기에 들어오나?");
           return newMembers; // 페이지가 1일 때 전체 교체
         } else {
           //return [...prevList, ...newMembers]; // 페이지가 1이 아닐 때 추가
           const existingIds = new Set(prevList.map(item => item.uid));
-        return [...prevList, ...newMembers.filter(item => !existingIds.has(item.uid))];//반복되는 결과는 없애기
+          return [...prevList, ...newMembers.filter(item => !existingIds.has(item.uid))];//반복되는 결과는 없애기
         }
       });
 
-      if (newMembers.length<5) {
-        // 남은 길이가 5이하면 그만 불러오기
-        console.log("배열의 길이 : ",newMembers.length);
+      console.log("어디까지 들어오는지 확인해보자...1");
+
+      if (!newMembers) {
+        
+        console.log("newMebers가 undefined이거나 null인가? : ", newMembers);
         setHasMore(false);
+
+      }else if(newMembers.length < 5){// 남은 길이가 5이하면 그만 불러오기
+
+        console.log("배열의 길이 : ", newMembers.length);
+        setHasMore(false);
+
       } else {
+
+        console.log("newMembers의 길이 찍어보기 : ",newMembers.length);
+
         setHasMore(true);
       }
 
@@ -101,53 +118,44 @@ const UserListPage = () => {
   };
 
   useEffect(() => {
-    fetchData(currentPage, searchQuery);
-  }, [currentPage, searchQuery]);
+
+    const fetchAndSetData = async () => {
+
+      if (searchSubmit) {
+        //setMemberList([]); // 초기화
+        console.log("currentPage 찍어봄 : ",currentPage);
+        await fetchData(currentPage, search.keyword, search.searchCate); // 비동기 함수 처리
+        console.log("멤버리스트에 들어갈꺼 출력해봄(memberList) : ",memberList);
+        setSearchSubmit(false);
+      }
+    }
+    window.scrollTo(0,0);
+    fetchAndSetData();
+  }, [currentPage, searchSubmit]);
 
   const searchChange = (e) => {
     setSearchUser(e.target.value);
   };
 
-  // 검색 후 페이지 reload
-  /*const search = () => {
-      setCurrentPage(1);
-      setHasMore(true);
-      setSearchQuery(searchUser);
-      setMemberList([]); // 새로운 검색 시 이전 검색 결과를 초기화
-  };*/
 
-  // enter key 로 검색하기
-  const keydown = (e) => {
-    if (e.key === 'Enter') {
-      search();
-    }
-  };
 
   const fetchMoreData = () => {
     if (!loading && hasMore) {
+
+      console.log("인피니티 스크롤 작동!");
       setCurrentPage((prevPage) => prevPage + 1);
+      setSearchSubmit(true);
+
+      console.log("loading값 : ",loading);
+      console.log("hasMore값 : ",hasMore);
+
+    }else{
+
+      console.log("더이상 불러올 페이지가 없습니다.");
+
     }
   };
 
-
-
-
-  {/*const userList = async () => {
-
-    const result = await postUserList(pageRequest);
-
-    setList(result);
-
-    console.log("뭐가 나오는지 찍어보자 : ", result);
-
-  }
-
-
-  useEffect(() => {
-    userList();
-  }, []);
-
-  */}
 
   const allUserDel = async () => {//모든 유저 삭제
 
@@ -214,7 +222,7 @@ const UserListPage = () => {
     }
   }
 
-  
+
 
   const activeUser = async (e) => {//유저 상태 활성화
 
@@ -258,6 +266,9 @@ const UserListPage = () => {
 
       await postChangeRole(formData);
 
+      setCurrentPage(1);
+      await fetchData(1, searchQuery);
+
       alert('권한이 변경되었습니다.');
     }
 
@@ -280,16 +291,10 @@ const UserListPage = () => {
     console.log("넘겨야하는 값1 : ", search.keyword);
     console.log("넘겨야하는 값2 : ", search.searchCate);
 
-
     setCurrentPage(1);
     setHasMore(true);
-    setMemberList([]);
-
-    const result = fetchData(currentPage,search.keyword,search.searchCate);
-
-    console.log("검색 결과값 : ", result);
-
-    setMemberList(result);
+    setSearchSubmit(true);
+    window.scrollTo(0, 0);
   }
 
   const excelDown = async () => {
@@ -382,7 +387,7 @@ const UserListPage = () => {
 
       <div className='main'>
         <p>회원 목록</p>
-        <SearchComponent searchContent={searchContent} submitSearch={submitSearch}/>
+        <SearchComponent searchContent={searchContent} submitSearch={submitSearch} />
         <InfiniteScroll
           dataLength={memberList.length}
           next={fetchMoreData}
@@ -393,9 +398,9 @@ const UserListPage = () => {
             cssOverride={override}
             size={20}
           />}
-          //endMessage={<p>end</p>}
+        //endMessage={<p>end</p>}
         >
-        <UserTable
+          <UserTable
             memberList={memberList}
             onChangeRole={onChangeRole}
             stopUser={stopUser}
