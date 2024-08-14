@@ -106,11 +106,11 @@ const ChatRoom = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('File uploaded:', data);
-            const chatMessage = { message: data.imageUrl, uid: currentUser.uid, chatNo: chatNo };
+            console.log('File uploaded:', data.imageUrl);
+            const chatMessage = { message: '', imageUrl: data.imageUrl, uid: currentUser.uid, chatNo: chatNo };
             socket.emit('chat message', chatMessage);
             setMessages((prevMessages) => [...prevMessages, chatMessage]);
-        })
+        })        
         .catch(error => console.error('Error uploading file:', error));
     };
     
@@ -178,16 +178,25 @@ const ChatRoom = () => {
             {messages.map((msg, index) => (
     <div key={index} className={`chatroom-message ${msg.uid === currentUser.uid ? 'own-message' : 'other-message'}`}>
         <span className="message-author">{msg.uid}</span>: 
-        {msg.message.endsWith('.png') || msg.message.endsWith('.jpg') || msg.message.endsWith('.jpeg') ? (
-            <a href={msg.message} download target="_blank" rel="noopener noreferrer">
-                <img src={msg.message} alt="uploaded file" className="message-image" />
+        {msg.imageUrl ? (
+            <a 
+                href={`http://localhost:8080${msg.imageUrl}`} 
+                download 
+                target="_blank" 
+                rel="noopener noreferrer"
+            >
+                <img 
+                    src={`http://localhost:8080${msg.imageUrl}`} 
+                    alt="uploaded file" 
+                    className="message-image" 
+                    style={{ maxWidth: '100px', maxHeight: '100px' }} 
+                />
             </a>
         ) : (
             <span className="message-content">{msg.message}</span>
         )}
     </div>
 ))}
-
 
                 <div ref={messagesEndRef} />
             </div>
