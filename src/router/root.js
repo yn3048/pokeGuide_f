@@ -13,14 +13,16 @@ import UserlistPage from "../pages/admin/UserListPage";
 
 import ChatRoom from "../components/chat/ChatRoom";
 import ChatRoomList from "../components/chat/ChatRoomList";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 //router 생성
 const root = createBrowserRouter([
     {path: "/", element: <HomePage />}, // 홈 화면
-    {path: "/main", element:<MainPage />}, // 메인 대시보드
+    {path: "/main", element:<MainPage />}, // 메인 대시보드 
+    {path: "/main", element:<ProtectedRoute><MainPage /></ProtectedRoute>},
     
-    // user
+    // userd
     {path: "/user/login", element:<LoginPage />}, // 로그인
     {path: "/user/Terms", element:<Terms />}, // 약관
     {path: "/user/register", element:<Register />}, // 회원가입
@@ -28,7 +30,7 @@ const root = createBrowserRouter([
     {path: "/user/FindPass", element:<FindPass />}, // 비번찾기
 
     // pokemons
-    {path: "/pokemons/list", element:<ListPage />}, // 포켓몬 목록
+    {path: "/poke/list", element:<ListPage />}, // 포켓몬 목록
 
     // admin
     {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
@@ -37,8 +39,8 @@ const root = createBrowserRouter([
 
 
     // chat
-    { path: "/chat/chatrooms", element: <ChatRoomList /> },
-    { path: "/chat/chatroom/:chatNo", element: <ChatRoom /> },
+    { path: "/chatrooms", element: <ChatRoomList /> },
+    { path: "/chatroom/:chatNo", element: <ChatRoom /> },
 
 ]);
 

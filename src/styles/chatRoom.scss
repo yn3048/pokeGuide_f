@@ -1,0 +1,89 @@
+.chatroom {
+    position: relative;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f7fafc;
+    border: 2px solid #fefbc6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .chatroom-title {
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 1.8em;
+    color: #61b36e;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .chatroom-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #c1e1c5;
+    border-radius: 10px;
+    background-color: #f0fff0;
+  }
+  
+  .chatroom-message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #e0ffe0;
+  }
+  
+  .own-message {
+    background-color: #f6ffa3;
+    text-align: right;
+    align-self: flex-end;
+  }
+  
+  .other-message {
+    background-color: #b3fda1;
+    text-align: left;
+    align-self: flex-start;
+  }
+  
+  .message-author {
+    font-weight: bold;
+  }
+  
+  .chatroom-input {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .chatroom-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+  }
+  
+  .chatroom-input button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fefbc6;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  .chatroom-input button:hover {
+    background-color: #ffeb99;
+  }
+  
+  .chatroom-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .invite-friends {
+    text-align: center;
+    margin: 20px 0;
+  }
+  

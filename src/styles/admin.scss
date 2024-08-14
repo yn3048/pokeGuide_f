@@ -49,50 +49,83 @@
     font-weight: bold;
 }
 
+
 .userList {
     margin-top: 20px;
-    width:1100px;
+    width:1150px;
+    height: auto;
+    border-collapse: collapse; //셀 간격을 없앰
 }
 
-.userList .title,
-.userList .content {
-    display: flex;
-    border-bottom: 1px solid black; /* 제목과 내용 사이에 경계선 */
+.userList thead{
+    height: 30px;
 }
 
-.userList .title div,
-.userList .content div {
-    flex: 1;
-    padding: 10px;
+.userList th,
+.userList td {
+    border-bottom: 1px solid black; // 제목과 내용 사이에 경계선
+    font-size: 13px;
     text-align: center;
+    padding: 10px;
 }
 
-.userList .title {
+.userList th {
     background-color: #f0f0f0;
     font-weight: bold;
 }
 
-.userList .content {
-    flex-direction: column; /* 사용자 정보 블록을 수직으로 나열 */
-}
-
-.userList .content > div {
-    display: flex;
-    border-top: 1px solid silver; /* 각 사용자 정보 블록 상단 경계선 */
-}
-
-.userList .content div > div {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-}
 
 .allDel{
+    
     position: absolute;
     color: white;
     background-color: yellowgreen;
     border: none;
     padding: 7px;
     margin-top: 10px;
-    right: 100px;
+    right: 50px;
+}
+
+.downExcell{
+    padding: 7px;
+    margin-top: 10px;
+    background-color: yellowgreen;
+    color: white;
+    border: none;
+
+}
+
+//검색
+
+.search{
+    display: flex;
+    position: relative;
+    margin-left: 845px;
+
+}
+
+.searchCate{
+    padding: 5px;
+    display: inline-block;
+    border: 1px solid gray;
+}
+
+
+.searchContent{
+    
+    padding: 5px;
+    border: 1px solid gray;
+    display: inline-block;
+
+}
+
+.searchBtn{
+
+    padding: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: yellowgreen;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
