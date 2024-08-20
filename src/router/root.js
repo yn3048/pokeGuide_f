@@ -14,6 +14,7 @@ import UserlistPage from "../pages/admin/UserListPage";
 import ChatRoom from "../components/chat/ChatRoom";
 import ChatRoomList from "../components/chat/ChatRoomList";
 import ProtectedRoute from "./ProtectedRoute";
+import { CommunityPage } from "../pages/community/CommunityPage";
 
 
 //router 생성
@@ -41,6 +42,10 @@ const root = createBrowserRouter([
     // chat
     { path: "/chatrooms", element: <ChatRoomList /> },
     { path: "/chatroom/:chatNo", element: <ChatRoom /> },
+
+
+    //community
+    { path: "/community", element: <CommunityPage /> },//커뮤니티 리스트
 
 ]);
 
