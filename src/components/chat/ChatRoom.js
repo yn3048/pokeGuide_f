@@ -45,9 +45,16 @@ const ChatRoom = () => {
                 setMessages((prevMessages) => [...prevMessages, parsedMsg]);
             });
 
-            fetch(`${RootUrl}/messages/chatroom/${chatNo}`)
+            fetch(`${RootUrl}/Chatroom/${chatNo}`)
                 .then(response => response.json())
-                .then(data => setMessages(data))
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        setMessages(data);
+                    } else {
+                        console.error('Received data is not an array:', data);
+                        setMessages([]);  // 데이터가 배열이 아닌 경우 빈 배열로 설정
+                    }
+                })
                 .catch(error => console.error('Error fetching messages:', error));
 
             return () => {

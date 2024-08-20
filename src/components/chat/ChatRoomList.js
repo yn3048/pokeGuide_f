@@ -16,7 +16,14 @@ const ChatRoomList = () => {
     }else{
     fetch(`${RootUrl}/chatrooms`)
       .then(response => response.json())
-      .then(data => setChatRooms(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setChatRooms(data);
+        } else {
+            console.error('Received data is not an array:', data);
+            setChatRooms([]);  // 데이터가 배열이 아닌 경우 빈 배열로 설정
+        }
+    })
       .catch(error => console.error('Error fetching chat rooms:', error));
     }
     
