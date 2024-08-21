@@ -1,0 +1,23 @@
+.congrats-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; // 화면 전체를 채우도록 설정
+    background-color: #f7fafc;
+  
+    .congrats-image {
+      max-width: 300px; // 이미지 크기 조정
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px; // 이미지와 텍스트 사이에 간격 추가
+    }
+  
+    .congrats-message {
+      font-family: 'Comic Sans MS', sans-serif;
+      color: #61b36e;
+      font-size: 2em;
+      text-align: center;
+    }
+  }
+  

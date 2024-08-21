@@ -119,6 +119,7 @@ const Register = () => {
         }
         if (emailOk) {
             registerUser(USER_PATH, user, navigate);
+            navigate('/Signup');
         } else {
             alert('이메일을 확인해주세요.');
         }
