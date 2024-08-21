@@ -8,6 +8,7 @@ import Terms from "../pages/user/Terms";
 import Register from "../pages/user/Register";
 import FindId from "../pages/user/FindId";
 import FindPass from "../pages/user/FindPass";
+import Signup from "../pages/user/Signup";
 
 import UserlistPage from "../pages/admin/UserListPage";
 
@@ -30,6 +31,7 @@ const root = createBrowserRouter([
     {path: "/user/register", element:<Register />}, // 회원가입
     {path: "/user/FindId", element:<FindId />}, // 아이디찾기
     {path: "/user/FindPass", element:<FindPass />}, // 비번찾기
+    {path: "/user/Signup", element:<Signup />}, // 비번찾기
 
     // pokemons
     {path: "/poke/list", element:<ListPage />}, // 포켓몬 목록

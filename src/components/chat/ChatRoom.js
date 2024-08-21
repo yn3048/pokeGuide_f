@@ -13,7 +13,7 @@ const ChatRoom = () => {
     const [inviteStatus, setInviteStatus] = useState('');
     const navigate = useNavigate();
     const currentUser = useSelector((state) => state.authSlice);
-    const [selectedFile, setSelectedFile] = useState(null);
+
 
     // 메시지 영역에 대한 ref 생성
     const messagesEndRef = useRef(null);
@@ -45,17 +45,23 @@ const ChatRoom = () => {
                 setMessages((prevMessages) => [...prevMessages, parsedMsg]);
             });
 
-            fetch(`${RootUrl}/Chatroom/${chatNo}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (Array.isArray(data)) {
-                        setMessages(data);
-                    } else {
-                        console.error('Received data is not an array:', data);
-                        setMessages([]);  // 데이터가 배열이 아닌 경우 빈 배열로 설정
-                    }
-                })
-                .catch(error => console.error('Error fetching messages:', error));
+            fetch(`${RootUrl}/messages/chatroom/${chatNo}?uid=${currentUser.uid}`)
+            .then(response => {
+                if (response.status === 403) {
+                    // 접근 권한이 없으면 홈으로 리다이렉트
+                    navigate('/');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setMessages(data);
+                } else {
+                    console.error('Received data is not an array:', data);
+                    setMessages([]);  // 데이터가 배열이 아닌 경우 빈 배열로 설정
+                }
+            })
+            .catch(error => console.error('Error fetching messages:', error));
 
             return () => {
                 socket.off('chat message');
@@ -159,11 +165,18 @@ const ChatRoom = () => {
             });
     };
 
+    const goBack = () => {
+        navigate('/chatrooms');
+    };
+
 
 
     return (
         <div className="chatroom">
             <div className="chatroom-header">
+            <button className="back-button" onClick={goBack}>
+                    ←
+                </button>
                 <h1 className="chatroom-title">채팅방</h1>
                 <div className="chatroom-toggle" onClick={() => setShowInvite(!showInvite)}>
                 ☰

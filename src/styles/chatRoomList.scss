@@ -1,0 +1,103 @@
+.chat-room-list-container {
+    background-color: #f7fafc; // 전체 배경 색상: 부드러운 회색
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid #fefbc6;
+    position: relative; // 내부 요소의 위치를 조정하기 위해 상대적 위치 설정
+  
+    .header-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center; // h1을 중앙으로 정렬
+      padding: 10px 0;
+  
+      h1 {
+        margin: 0;
+        color: #61b36e;
+        font-family: 'Comic Sans MS', sans-serif;
+      }
+  
+      .back-button {
+        position: absolute;
+        top: -30px; // 버튼을 위로 10px 이동
+        left: -10px; // 컨테이너 내부 왼쪽에 배치
+        background-color: #f7fafc;
+        border: 1px solid #c1e1c5;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+        color: #61b36e;
+        
+        &:hover {
+          background-color: #e0ffe0;
+        }
+      }
+    }
+  
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+  
+      li {
+        background-color: #f0fff0;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        border: 1px solid #c1e1c5;
+  
+        a {
+          text-decoration: none;
+          color: #61b36e;
+          font-weight: bold;
+          display: block;
+          text-align: center;
+  
+          &:hover {
+            color: #83c995;
+          }
+        }
+      }
+    }
+  
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+  
+      input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #c1e1c5;
+        margin-right: 10px;
+        font-family: 'Arial', sans-serif;
+        background-color: #f7fafc;
+  
+        &::placeholder {
+          color: #888;
+        }
+      }
+  
+      button {
+        padding: 10px 20px;
+        background-color: #fefbc6;
+        border: none;
+        border-radius: 5px;
+        color: #555;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #ffeb99;
+        }
+      }
+    }
+  }
+  
