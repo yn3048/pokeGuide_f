@@ -69,54 +69,22 @@ export const CommunityPage = () => {
                     <button onClick={submitSearch} className='searchBtn'>검색</button>
                 </div>
 
-                <table className="userList">
+                <table className="boardList">
             <thead>
               <tr>
                 <th>번호</th>
-                <th>아이디</th>
-                <th>이름</th>
-                <th>닉네임</th>
-                <th>성별</th>
-                <th>이메일</th>
-                <th>가입일</th>
-                <th>방문횟수</th>
-                <th>권한</th>
-                <th>상태</th>
-                <th>작업</th>
+                <th>제목</th>
+                <th>글쓴이</th>
+                <th>작성일</th>
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(memberList) && memberList.length > 0 ?(memberList && memberList.map((user,index) => (
-                <tr key={user.uid}>
-                  <td>{index+1}</td>
-                  <td>{user.uid}</td>
-                  <td>{user.name}</td>
-                  <td>{user.nick}</td>
-                  <td>{user.gender}</td>
-                  <td>{user.email}</td>
-                  <td>{user.createDate}</td>
-                  <td>{user.visitCount}</td>
-                  <td>
-                    <select
-                      name="role"
-                      data-id={user.uid}
-                      value={user.role}
-                      onChange={onChangeRole}
-                      >
-                      <option value="USER">USER</option>
-                      <option value="ADMIN">ADMIN</option>
-                    </select>
-                  </td>
-                  <td>{user.status}</td>
-                  <td>
-                    {user.status=="active" ?(<button onClick={stopUser} data-user={user.uid}>정지</button>):(<button onClick={activeUser} data-user={user.uid}>활성화</button>)}
-                    <button onClick={delUser} data-uid={user.uid}>삭제</button>
-                  </td>
-                </tr>
-              ))):(<tr>
-                <td colSpan="11">자료가 없습니다.</td>
-              </tr>)}
-              
+                <tr>
+                  <td>1</td>
+                  <td>게시판글입니다.</td>
+                  <td>오홍홍</td>
+                  <td>2024-08-21</td>
+                </tr>              
             </tbody>
           </table>
 
