@@ -15,6 +15,7 @@ import ChatRoom from "../components/chat/ChatRoom";
 import ChatRoomList from "../components/chat/ChatRoomList";
 import ProtectedRoute from "./ProtectedRoute";
 import { CommunityPage } from "../pages/community/CommunityPage";
+import WritePage from "../pages/community/WritePage";
 
 
 //router 생성
@@ -46,7 +47,7 @@ const root = createBrowserRouter([
 
     //community
     { path: "/community", element: <CommunityPage /> },//커뮤니티 리스트
-
+    { path: "/community/write", element: <WritePage /> },//커뮤니티 - 글쓰기
 ]);
 
 export default root;

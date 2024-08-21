@@ -1,0 +1,31 @@
+.wrap {
+    display: grid;
+    grid-template-rows: 130px auto; /* 헤더의 높이와 나머지 영역 */
+    grid-template-columns: 300px 1fr; /* 사이드바와 메인 영역 */
+    height: 900px; /* 전체 높이 설정 */
+}
+
+.header {
+    height: 100px;
+    width: 100%;
+    color: red;
+    background-color: lightyellow;
+    grid-column: 1 / span 2; /* 전체 너비를 차지하도록 설정 */
+}
+
+.header img{
+    height: 70px;
+    width: 100px;
+    margin: 10px;
+    margin-left: 30px;
+}
+
+.main {
+    padding-left: 20px;
+    height: 100%; /* 메인 영역 높이 전체 */
+}
+
+.main p {
+    font-size: 24px;
+    font-weight: bold;
+}
