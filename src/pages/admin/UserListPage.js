@@ -7,21 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ClipLoader } from "react-spinners";
 import { UserTable } from '../../components/admin/UserTable';
 import { SearchComponent } from '../../components/admin/SearchComponent';
-////////hasMore값이 true로 설정됨(출력할 값이 딱 5개이면) : undefine이면 hasMore를 false로 바꿔야함!!! 해결바람!
-{/*
-const initState = {
-  dtoList: [],
-  cate: null,
-  length:0,
-  pg: 0,
-  size: 0,
-  total: 0,
-  startNo: 0,
-  start: 0,
-  end: 0,
-  prev: false,
-  next: false,
-};*/}
+
 
 const UserListPage = () => {
 
@@ -36,7 +22,6 @@ const UserListPage = () => {
   const [role, setRole] = useState([]);
   const formData = new FormData();
   const params = new FormData();
-
 
   const [search, setSearch] = useState({
     searchCate: "uid",
@@ -79,7 +64,9 @@ const UserListPage = () => {
 
         if(!newMembers){
 
-          return [];//빈 배열을 셋팅
+          console.log("데이터가 없을시에 여기에 들어옴");
+
+          return prevList;//데이터가 없을시에 그냥 그 전 데이터 불러오기
 
         }else if (page === 1) {
           console.log("결과 값이 없을때 여기에 들어오나?");
@@ -124,9 +111,10 @@ const UserListPage = () => {
       if (searchSubmit) {
         //setMemberList([]); // 초기화
         console.log("currentPage 찍어봄 : ",currentPage);
+        setSearchSubmit(false);
         await fetchData(currentPage, search.keyword, search.searchCate); // 비동기 함수 처리
         console.log("멤버리스트에 들어갈꺼 출력해봄(memberList) : ",memberList);
-        setSearchSubmit(false);
+        
       }
     }
     window.scrollTo(0,0);
@@ -143,6 +131,7 @@ const UserListPage = () => {
     if (!loading && hasMore) {
 
       console.log("인피니티 스크롤 작동!");
+      console.log("회원이 10명이면 이게 작동하면 안됨.");
       setCurrentPage((prevPage) => prevPage + 1);
       setSearchSubmit(true);
 
