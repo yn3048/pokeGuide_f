@@ -20,7 +20,10 @@ const HomePage = () => {
       <img src="../images/pikachu.gif" alt='피카츄'></img><br />
 
       <Link to={`/chatrooms`}>ChatRooms</Link><br />
-      <Link to={`/user/login`}>LoginPage</Link>
+      <Link to={`/user/login`}>LoginPage</Link><br />
+      <Link to={`/poke/list`}>pokeList</Link><br />
+      <Link to={`/admin/dashboard`}>Admin</Link><br />
+      <Link to={`/community`}>community</Link><br />
       
     </div>
   )
