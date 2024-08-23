@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/home/HomePage";
-import MainPage from "../pages/main/MainPage";
 import LoginPage from "../pages/user/LoginPage";
 import ListPage from "../pages/pokemons/ListPage";
 import DashboardPage from "../pages/admin/DashboardPage";
@@ -14,7 +13,6 @@ import UserlistPage from "../pages/admin/UserListPage";
 
 import ChatRoom from "../components/chat/ChatRoom";
 import ChatRoomList from "../components/chat/ChatRoomList";
-import ProtectedRoute from "./ProtectedRoute";
 import { CommunityPage } from "../pages/community/CommunityPage";
 import WritePage from "../pages/community/WritePage";
 
@@ -22,8 +20,6 @@ import WritePage from "../pages/community/WritePage";
 //router 생성
 const root = createBrowserRouter([
     {path: "/", element: <HomePage />}, // 홈 화면
-    {path: "/main", element:<MainPage />}, // 메인 대시보드 
-    {path: "/main", element:<ProtectedRoute><MainPage /></ProtectedRoute>},
     
     // userd
     {path: "/user/login", element:<LoginPage />}, // 로그인

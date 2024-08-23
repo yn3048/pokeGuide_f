@@ -172,6 +172,7 @@ const ChatRoom = () => {
 
 
     return (
+        
         <div className="chatroom">
             <div className="chatroom-header">
             <button className="back-button" onClick={goBack}>

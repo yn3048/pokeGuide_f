@@ -5,7 +5,6 @@ import Signup from '../../components/user/signup';
 const signup = () => {
   return (
     <div>
-      <h1>Signup</h1>
       <Signup />
     </div>
   );
