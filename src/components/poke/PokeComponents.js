@@ -14,7 +14,7 @@ export const PokeComponents = () => {
 
     useEffect(() => {
 
-        const fetchData = async () => {
+        const fetchData = async () => {//db에서 pokemon데이터를 불러와서 있으면 db에서 불러온거 뿌려주고, 없으면 api로 뿌려주는 동시에 db에 저장
 
             const allPokeData = [];
 
@@ -35,12 +35,30 @@ export const PokeComponents = () => {
                     const speciesResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${i}`);
 
                     console.log("결과값 2 : ", speciesResponse);
+                    console.log("여기는 뭐가 들어와?",speciesResponse.data);
+
+
+                    const typesWithKoreanNames = await Promise.all(
+                        response.data.types.map(async (type) => {
+                          const typeResponse = await axios.get(type.type.url);
+                          const koreanTypeName = typeResponse.data.names.find(
+                            (name) => name.language.name === 'ko'
+                          ).name;
+                          return { ...type, type: { ...type.type, korean_name: koreanTypeName } };
+                        })
+                      );
+
+                      console.log("포켓몬 타입 추출 ",typesWithKoreanNames);
+
 
                     const koreanName = speciesResponse.data.names.find(name => name.language.name === 'ko');
+                    const koreaAblity = speciesResponse.data.genera.find(ab=>ab.language.name==='ko');
+
+                    console.log("이거 뽑혀?",koreaAblity.genus);
 
                     console.log("결과값 3 : ", koreanName);
 
-                    allPokeData.push({ ...response.data, koreanName: koreanName.name });
+                    allPokeData.push({ ...response.data, koreanName: koreanName.name,koreanablity:koreaAblity.genus,types:typesWithKoreanNames});
                 }
 
             }
@@ -79,7 +97,8 @@ export const PokeComponents = () => {
                 {pokeData.map((pokemon) => (
                     <div key={pokemon.id} className='pokeList'>
                         <img src={pokemon.sprites.front_default} alt={pokemon.koreanName} />
-                        <p>{pokemon.koreanName}</p>
+                        <p>1 : {pokemon.koreanName}</p>
+                        <p>2 : {pokemon.koreanablity}</p>
                         <p>ID : {pokemon.id}</p>
                     </div>
                 ))
