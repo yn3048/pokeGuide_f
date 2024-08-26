@@ -1,7 +1,10 @@
+
 .pokeList {
     display: inline-block;
+    width: calc(20% - 20px); /* 5개씩 배치되도록 너비 설정 */
     border: 1px solid black;
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
+    box-sizing: border-box; /* 패딩과 보더를 포함한 크기 설정 */
 }

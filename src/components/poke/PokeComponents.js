@@ -35,30 +35,30 @@ export const PokeComponents = () => {
                     const speciesResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${i}`);
 
                     console.log("결과값 2 : ", speciesResponse);
-                    console.log("여기는 뭐가 들어와?",speciesResponse.data);
+                    console.log("여기는 뭐가 들어와?", speciesResponse.data);
 
 
                     const typesWithKoreanNames = await Promise.all(
                         response.data.types.map(async (type) => {
-                          const typeResponse = await axios.get(type.type.url);
-                          const koreanTypeName = typeResponse.data.names.find(
-                            (name) => name.language.name === 'ko'
-                          ).name;
-                          return { ...type, type: { ...type.type, korean_name: koreanTypeName } };
+                            const typeResponse = await axios.get(type.type.url);
+                            const koreanTypeName = typeResponse.data.names.find(
+                                (name) => name.language.name === 'ko'
+                            ).name;
+                            return { ...type, type: { ...type.type, korean_name: koreanTypeName } };
                         })
-                      );
+                    );
 
-                      console.log("포켓몬 타입 추출 ",typesWithKoreanNames);
+                    console.log("포켓몬 타입 추출 ", typesWithKoreanNames);
 
 
                     const koreanName = speciesResponse.data.names.find(name => name.language.name === 'ko');
-                    const koreaAblity = speciesResponse.data.genera.find(ab=>ab.language.name==='ko');
+                    const koreaAblity = speciesResponse.data.genera.find(ab => ab.language.name === 'ko');
 
-                    console.log("이거 뽑혀?",koreaAblity.genus);
+                    console.log("이거 뽑혀?", koreaAblity.genus);
 
                     console.log("결과값 3 : ", koreanName);
 
-                    allPokeData.push({ ...response.data, koreanName: koreanName.name,koreanablity:koreaAblity.genus,types:typesWithKoreanNames});
+                    allPokeData.push({ ...response.data, koreanName: koreanName.name, koreanablity: koreaAblity.genus, types: typesWithKoreanNames });
                 }
 
             }
@@ -88,12 +88,12 @@ export const PokeComponents = () => {
     return (
         <div>
             <InfiniteScroll
-
                 dataLength={pokeData.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
                 loader={<p>loading.....</p>}
             >
+
                 {pokeData.map((pokemon) => (
                     <div key={pokemon.id} className='pokeList'>
                         <img src={pokemon.sprites.front_default} alt={pokemon.koreanName} />
@@ -103,7 +103,9 @@ export const PokeComponents = () => {
                     </div>
                 ))
                 }
+
             </InfiniteScroll>
+
             {loading && <p>loading....</p>}
         </div>
     )

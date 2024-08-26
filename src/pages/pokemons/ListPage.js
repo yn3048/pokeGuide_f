@@ -1,5 +1,6 @@
 import { PokeComponents } from '../../components/poke/PokeComponents';
 
+
 const ListPage = () => {
     
   return (

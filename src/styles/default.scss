@@ -1,8 +1,8 @@
 .wrap {
     display: grid;
     grid-template-rows: 130px auto; /* 헤더의 높이와 나머지 영역 */
-    grid-template-columns: 300px 1fr; /* 사이드바와 메인 영역 */
-    height: 900px; /* 전체 높이 설정 */
+    height: 900px; /* 전체 높이 설정 : 이게 있어야 인피니티 스크롤이 작동(아마 끝이 있어야 작동하는 듯...) */
+    //grid-template-columns: 1fr; /* 전체 너비를 하나의 컬럼으로 설정 */
 }
 
 .header {
@@ -23,9 +23,10 @@
 .main {
     padding-left: 20px;
     height: 100%; /* 메인 영역 높이 전체 */
+    grid-column: 1 / span 2; /* 전체 너비를 차지하도록 설정 */
+
 }
 
-.main p {
-    font-size: 24px;
-    font-weight: bold;
+.App{
+    display: flex;
 }

@@ -113,8 +113,7 @@ const UserListPage = () => {
         console.log("currentPage 찍어봄 : ",currentPage);
         setSearchSubmit(false);
         await fetchData(currentPage, search.keyword, search.searchCate); // 비동기 함수 처리
-        console.log("멤버리스트에 들어갈꺼 출력해봄(memberList) : ",memberList);
-        
+        console.log("멤버리스트에 들어갈꺼 출력해봄(memberList) : ",memberList);        
       }
     }
     window.scrollTo(0,0);
@@ -363,18 +362,7 @@ const UserListPage = () => {
   };
 
   return (
-    <div className="wrap">
-      <div className='header'>
-        <img src="../images/pokemon logo.png" />
-      </div>
-
-      <div className='sidebar'>
-        <a href='/admin/userlist'>회원관리<img src='../images/ball.png' /></a>
-        <a>포켓몬관리</a>
-        <a>마을관리</a>
-      </div>
-
-      <div className='main'>
+      <div className='userList'>
         <p>회원 목록</p>
         <SearchComponent searchContent={searchContent} submitSearch={submitSearch} />
         <InfiniteScroll
@@ -403,8 +391,6 @@ const UserListPage = () => {
         <button style={{ cursor: 'pointer' }} onClick={excelDown} className='downExcell'>엑셀다운</button>
 
       </div>
-    </div>
-
   )
 }
 export default UserListPage

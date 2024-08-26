@@ -3,6 +3,13 @@
     width:1150px;
     height: auto;
     border-collapse: collapse; //셀 간격을 없앰
+    position: relative;
+    margin-top: 50px; 
+}
+
+.userList > p{
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .userList thead{
@@ -23,23 +30,24 @@
 }
 
 
-.allDel{
-    
+.allDel{    
     position: absolute;
     color: white;
     background-color: yellowgreen;
     border: none;
     padding: 7px;
     margin-top: 10px;
-    right: 50px;
+    right: 0px;
 }
 
 .downExcell{
+    position: absolute;
     padding: 7px;
     margin-top: 10px;
     background-color: yellowgreen;
     color: white;
     border: none;
+    left: 0px;
 
 }
 
@@ -47,9 +55,10 @@
 
 .search{
     display: flex;
-    position: relative;
-    margin-left: 845px;
-
+    margin-left: auto;
+    //margin-top: 10px;
+    position: absolute;
+    right: 0;
 }
 
 .searchCate{
@@ -59,8 +68,7 @@
 }
 
 
-.searchContent{
-    
+.searchContent{    
     padding: 5px;
     border: 1px solid gray;
     display: inline-block;
@@ -68,7 +76,6 @@
 }
 
 .searchBtn{
-
     padding: 7px;
     padding-left: 15px;
     padding-right: 15px;
