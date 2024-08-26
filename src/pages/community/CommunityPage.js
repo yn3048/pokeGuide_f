@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../../styles/community.scss';
 import { useNavigate } from 'react-router-dom';
-import DefaultLayout from '../../layouts/DefaultLayout';
+
 
 export const CommunityPage = () => {
 
@@ -50,58 +50,58 @@ export const CommunityPage = () => {
   }
 
   return (
-    <DefaultLayout>
+    <div className='community'>
       <p>유저 게시판</p>
-      <div className='search'>
-        <select name="searchCate" onClick={searchContent} className='searchCate'>
-          <option value="title">제목</option>
-          <option value="content">내용</option>
-          <option value="title+content">제목+내용</option>
-          <option value="nick">닉네임</option>
-        </select>
-        <input name="keyword" onChange={searchContent} className='searchContent' onKeyDown={keydown} placeholder='검색어를 입력하세요' />
-        <button onClick={submitSearch} className='searchBtn'>검색</button>
+
+      <div className='searchWriteContainer'>
+        <button className='writeBtn' onClick={write}>글쓰기</button>
+
+        <div className='search'>
+          <select name="searchCate" onClick={searchContent} className='searchCate'>
+            <option value="title">제목</option>
+            <option value="content">내용</option>
+            <option value="title+content">제목+내용</option>
+            <option value="nick">닉네임</option>
+          </select>
+          <input name="keyword" onChange={searchContent} className='searchContent' onKeyDown={keydown} placeholder='검색어를 입력하세요' />
+          <button onClick={submitSearch} className='searchBtn'>검색</button>
+        </div>
       </div>
 
-      <div className='boardContainer'>
-        <table className="boardList">
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>글쓴이</th>
-              <th>작성일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>게시판글입니다1</td>
-              <td>오홍홍</td>
-              <td>2024-08-21</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>게시판글입니다2</td>
-              <td>오홍홍</td>
-              <td>2024-08-22</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>게시판글입니다3</td>
-              <td>오홍홍</td>
-              <td>2024-08-23</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>게시판글입니다4</td>
-              <td>오홍홍</td>
-              <td>2024-08-24</td>
-            </tr>
-          </tbody>
-        </table>
-        <button className='writeBtn' onClick={write}>글쓰기</button>
+      <div className="boardList">
+        <ul>
+          <li>
+            <dl>
+            
+              <dt><a>게시판글입니다2</a></dt>
+              <dd><a>오홍홍</a></dd>
+            
+            </dl>
+            
+            <p>
+
+              <span>조회<span>2</span></span>
+              <span>2024-08-22</span>
+
+            </p>
+
+          </li>
+
+          <tr>
+            <td>게시판글입니다3</td>
+            <td>오홍홍</td>
+            <td>2024-08-23</td>
+          </tr>
+
+          <tr>
+            <td>게시판글입니다4</td>
+            <td>오홍홍</td>
+            <td>2024-08-24</td>
+          </tr>
+        </ul>
+
       </div>
-    </DefaultLayout>
+    </div>
   )
+
 }

@@ -1,4 +1,10 @@
 
+.community >p{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
 .boardList {
     margin-top: 20px;
     width:100%;
@@ -6,6 +12,11 @@
     border-collapse: collapse; //셀 간격을 없앰
 }
 
+.boardList ul li {
+
+    list-style-type: none;//li의 점 없애기
+}
+/*
 .boardList thead{
     height: 30px;
 }
@@ -32,27 +43,50 @@
     background-color: #f0f0f0;
     font-weight: bold;
 }
+    */
+
+
+ //게시판 리스트 
+
+
+ .searchWriteContainer{
+    display: flex;
+    border-bottom : 1px solid lightgray;
+    padding-bottom: 30px;
+    //justify-content: space-between;
+ }
+
+ //글쓰기 버튼
+
+.writeBtn{
+    display: flex;
+    color: white;
+    background-color: yellowgreen;
+    border: none;
+    padding: 7px;
+    float: right;
+    cursor: pointer;
+    margin-right: auto; /* 왼쪽 정렬 */
+}
 
 //검색
 
 .search{
     display: flex;
-    position: relative;
-    margin-left: 825px;
-
+    margin-left: auto;
 }
 
 .searchCate{
     padding: 5px;
     display: inline-block;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
 }
 
 
 .searchContent{
     
     padding: 5px;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     display: inline-block;
 
 }
@@ -74,22 +108,30 @@
     position: relative;
 }
 
-//글쓰기 버튼
 
-.writeBtn{
-    color: white;
-    background-color: yellowgreen;
-    border: none;
-    padding: 7px;
-    margin-top: 7px;
-    float: right;
-    cursor: pointer;
+
+//---------------------------------------------------------------------글쓰기-------------------------------------------------------------
+.write{
+    width: 100%;
+    height: auto;
 }
 
 
-//글쓰기 배경
-
-.writeBg{
+//글쓰기 제목
+.title{
+    display: flex;
     background-color: rgb(247, 247, 247);
     width: 97%;
+}
+
+.title p{
+    display: inline-block;
+}
+
+.title input{
+    display: inline-block;
+}
+
+.contents{
+    display: flex;
 }
