@@ -73,33 +73,110 @@ export const CommunityPage = () => {
           <li>
             <dl>
             
-              <dt><a>게시판글입니다2</a></dt>
-              <dd><a>오홍홍</a></dd>
+              <dt><a>게시판글입니당~ 일라일라일라이라~ 일라일아</a></dt>
+              <dd><img src="../images/ball.png" alt='포켓볼'></img><a>오홍홍</a></dd>
             
             </dl>
             
             <p>
 
-              <span>조회<span>2</span></span>
-              <span>2024-08-22</span>
+              <span>조회<span> 2</span>|</span>
+              <span> 2024-08-22</span>
 
             </p>
 
           </li>
 
-          <tr>
-            <td>게시판글입니다3</td>
-            <td>오홍홍</td>
-            <td>2024-08-23</td>
-          </tr>
 
-          <tr>
-            <td>게시판글입니다4</td>
-            <td>오홍홍</td>
-            <td>2024-08-24</td>
-          </tr>
-        </ul>
+          <li>
+            <dl>
+            
+              <dt><a>게시판글입니당~ 일라일라일라이라~ 일라일아</a></dt>
+              <dd><img src="../images/ball.png" alt='포켓볼'></img><a>오홍홍</a></dd>
+            
+            </dl>
+            
+            <p>
 
+              <span>조회<span> 2</span>|</span>
+              <span> 2024-08-22</span>
+
+            </p>
+
+          </li>
+
+
+          <li>
+            <dl>
+            
+              <dt><a>게시판글입니당~ 일라일라일라이라~ 일라일아</a></dt>
+              <dd><img src="../images/ball.png" alt='포켓볼'></img><a>오홍홍</a></dd>
+            
+            </dl>
+            
+            <p>
+
+              <span>조회<span> 2</span>|</span>
+              <span> 2024-08-22</span>
+
+            </p>
+
+          </li>
+
+
+          <li>
+            <dl>
+            
+              <dt><a>게시판글입니당~ 일라일라일라이라~ 일라일아</a></dt>
+              <dd><img src="../images/ball.png" alt='포켓볼'></img><a>오홍홍</a></dd>
+            
+            </dl>
+            
+            <p>
+
+              <span>조회<span> 2</span>|</span>
+              <span> 2024-08-22</span>
+
+            </p>
+
+          </li>
+
+
+          <li>
+            <dl>
+            
+              <dt><a>게시판글입니당~ 일라일라일라이라~ 일라일아</a></dt>
+              <dd><img src="../images/ball.png" alt='포켓볼'></img><a>오홍홍</a></dd>
+            
+            </dl>
+            
+            <p>
+
+              <span>조회<span> 2</span>|</span>
+              <span> 2024-08-22</span>
+
+            </p>
+
+          </li>
+
+
+          <li>
+            <dl>
+            
+              <dt><a>게시판글입니당~ 일라일라일라이라~ 일라일아</a></dt>
+              <dd><img src="../images/ball.png" alt='포켓볼'></img><a>오홍홍</a></dd>
+            
+            </dl>
+            
+            <p>
+
+              <span>조회<span> 2</span>|</span>
+              <span> 2024-08-22</span>
+
+            </p>
+
+          </li>
+          </ul>
       </div>
     </div>
   )
