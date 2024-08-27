@@ -1,3 +1,8 @@
+.community{
+    flex:0.9;//flex container를 다 채움
+    width: 100%;
+    box-sizing: border-box;
+}
 
 .community >p{
     font-size: 24px;
@@ -6,78 +11,85 @@
 
 
 .boardList {
-    margin-top: 20px;
     width:100%;
     height: auto;
     border-collapse: collapse; //셀 간격을 없앰
+
+}
+
+.boardList ul {
+    padding: 0;
+    margin: 0;
 }
 
 .boardList ul li {
-
+    display: flex;
+    justify-content: space-between;//이걸 사용하고프면 display:flex와 함께 사용
+    //align-items: center;
     list-style-type: none;//li의 점 없애기
-}
-/*
-.boardList thead{
-    height: 30px;
+    border-bottom: 1px solid lightgray;
 }
 
-.boardList th,
-.boardList td {
-    border-bottom: 1px solid black; // 제목과 내용 사이에 경계선
-    font-size: 13px;
-    text-align: center;
-    padding: 10px;
+.boardList dl{
+    display: inline-block;
+    color: gray;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.boardList tbody tr td:nth-child(1){
-    width: 30px;
+.boardList dl dt{
+    font-size: 18px;
+}
+.boardList dl dd{
+    margin: 0;
+    font-size: 15px;
+}
+
+.boardList dl dd img{
+    width: 16px;
+    height: 16px;
 }
 
 
-.boardList tbody tr td:nth-child(4){
-    width: 90px;
+.boardList p{
+    display: inline-block;
+    font-size: 15px;
+    color: gray;
+    padding-top: 15px;
 }
 
-
-.boardList th {
-    background-color: #f0f0f0;
-    font-weight: bold;
+.boardList span:nth-child(1){
+    padding-right: 10px;
 }
-    */
 
 
  //게시판 리스트 
-
 
  .searchWriteContainer{
     display: flex;
     border-bottom : 1px solid lightgray;
     padding-bottom: 30px;
-    //justify-content: space-between;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 100%;
  }
 
- //글쓰기 버튼
-
-.writeBtn{
-    display: flex;
-    color: white;
-    background-color: yellowgreen;
-    border: none;
-    padding: 7px;
-    float: right;
-    cursor: pointer;
-    margin-right: auto; /* 왼쪽 정렬 */
-}
 
 //검색
 
 .search{
     display: flex;
     margin-left: auto;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
 }
 
 .searchCate{
-    padding: 5px;
+    padding: 6px;
     display: inline-block;
     border: 1px solid lightgray;
 }
@@ -85,7 +97,7 @@
 
 .searchContent{
     
-    padding: 5px;
+    padding: 6px;
     border: 1px solid lightgray;
     display: inline-block;
 
@@ -102,36 +114,67 @@
     cursor: pointer;
 }
 
-.boardContainer {
-    width: 1150px; /* 테이블과 버튼을 감싸는 컨테이너의 너비를 설정 */
-    margin-top: 20px;
-    position: relative;
-}
+ //글쓰기 버튼
 
+ .writeBtn{
+    display: flex;
+    color: white;
+    background-color: yellowgreen;
+    border: none;
+    padding: 7px;
+    float: right;
+    cursor: pointer;
+    margin-right: auto; /* 왼쪽 정렬 */
+}
 
 
 //---------------------------------------------------------------------글쓰기-------------------------------------------------------------
 .write{
-    width: 100%;
+    width: 95%;
     height: auto;
 }
 
+
+.write>p{
+    font-size: 30px;
+    font-weight: bold;
+}
 
 //글쓰기 제목
 .title{
     display: flex;
     background-color: rgb(247, 247, 247);
-    width: 97%;
+    width: 100%;
 }
 
+.title span{
+    font-size: 20px;
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+
 .title p{
+    color: gray;
     display: inline-block;
+    padding-left: 15px;
 }
 
 .title input{
     display: inline-block;
+    padding-right: 1100px;
+    margin-left: 15px;
+    border: 1px solid lightgray;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: none;
 }
 
 .contents{
     display: flex;
+}
+
+
+.btns{
+    text-align: right;
 }
