@@ -4,6 +4,7 @@ import Contents from '../components/main/Contents'
 import '../styles/default.scss';
 
 const DefaultLayout = ({children}) => {
+  
   return (
     <div className="wrap">
       <Header/>
