@@ -3,6 +3,7 @@ import { getCookie, setCookie, removeCookie } from "../util/cookieUtil";
 
 const loadStateFromCookie = () => {
   const auth = getCookie("auth");
+  console.log("Loaded auth from cookie:", auth); // 쿠키에서 로드된 정보 확인
 
   const uid = auth?.uid;
   const name = auth?.name;
