@@ -16,7 +16,6 @@ const UserListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [searchUser, setSearchUser] = useState(''); // 검색 입력 처리
   const [searchQuery, setSearchQuery] = useState(''); // 검색어 저장
   const [searchSubmit, setSearchSubmit] = useState(true);//검색버튼을 누르면 useEffect가 실행되게 하는 키
   const [role, setRole] = useState([]);
@@ -119,11 +118,6 @@ const UserListPage = () => {
     window.scrollTo(0,0);
     fetchAndSetData();
   }, [currentPage, searchSubmit]);
-
-  const searchChange = (e) => {
-    setSearchUser(e.target.value);
-  };
-
 
 
   const fetchMoreData = () => {
