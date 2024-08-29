@@ -10,3 +10,15 @@ export const ArticleReg = async (data) => {
 
     return response.data;
 };
+
+
+export const ArticleList = async (data) => {
+
+    const response = await axios.post(`${rootURL}/list`, data, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+};
