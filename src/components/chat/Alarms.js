@@ -8,23 +8,25 @@ const Alarms = ({ uid }) => {
         fetch(`${RootUrl}/chat/alarms?uid=${uid}`)
             .then(response => response.json())
             .then(data => {
-                console.log("Fetched alarms:", data); // 데이터 확인
-                setAlarms(Array.isArray(data) ? data : []); // 배열이 아닌 경우 빈 배열로 설정
+                console.log("Fetched alarms:", data);
+                setAlarms(Array.isArray(data) ? data : []);
             })
             .catch(error => console.error('Error fetching alarms:', error));
-            socket.on('notification', (newAlarm) => {
-                console.log("New alarm received:", newAlarm);
-                setAlarms((prevAlarms) => [...prevAlarms, newAlarm]);
-            });
     
-            return () => {
-                socket.off('notification');
-            };
-        }, [uid]);
+        socket.on('notification', (newAlarm) => {
+            console.log("New alarm received:", newAlarm);
+            setAlarms((prevAlarms) => [...prevAlarms, newAlarm]);
+        });
+    
+        return () => {
+            socket.off('notification');
+        };
+    }, [uid]);
+    
 
     const checkAndDeleteAlarm = (alarmId) => {
         fetch(`${RootUrl}/chat/alarms/${alarmId}/check`, {
-            method: 'POST',
+            method: 'DELETE',
         })
             .then(() => {
                 setAlarms(alarms.filter(alarm => alarm.id !== alarmId));
