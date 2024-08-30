@@ -22,3 +22,11 @@ export const ArticleList = async (data) => {
 
     return response.data;
 };
+
+export const getContent = async (data) => {
+
+    const response = await axios.get(`${rootURL}/view?ano=${data}`);
+
+    return response.data;
+};
+
