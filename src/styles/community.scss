@@ -52,6 +52,12 @@
     height: 16px;
 }
 
+.boardList a{
+
+    text-decoration-line: none;
+    color: gray;
+}
+
 
 .boardList p{
     display: inline-block;
@@ -178,3 +184,22 @@
 .btns{
     text-align: right;
 }
+
+//------------------------------------------------------뷰--------------------------------------------------------------------
+
+.markdownDiv{
+    background-color: rgb(246, 246, 246);
+    border-radius: 10px;
+    width: 100%;
+    margin: 10px;
+    height: auto;
+}
+
+
+.markdownDiv img {//여기서 이미지 조정 가능
+
+    width: 50%;
+    text-align: center;
+}
+
+  

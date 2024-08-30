@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArticleList } from '../../api/CommunityApi';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ClipLoader } from 'react-spinners';
+import { AlignCenter, AlignLeft } from 'react-feather';
 
 
 
@@ -88,7 +89,7 @@ export const CommunityPage = () => {
 
       const response = await ArticleList(params);
 
-      const newArticle = response.body;
+      const newArticle = response.body.dtoList;
 
       console.log("출력할 데이터 보기 : ", newArticle);
       console.log("출력할 데이터와 함께 currentPage보기 : ", currentPage);
@@ -99,8 +100,7 @@ export const CommunityPage = () => {
 
           console.log("데이터가 없을시에 여기에 들어옴");
 
-          return prevList;//데이터가 없을시에 그냥 그 전 데이터 불러오기
-
+          return [];//데이터가 없을시에 빈 배열 반환
         } else if (page === 1) {
           console.log("결과 값이 없을때 여기에 들어오나?");
           return newArticle; // 페이지가 1일 때 전체 교체
@@ -181,8 +181,8 @@ export const CommunityPage = () => {
         <div className='search'>
           <select name="searchCate" onClick={searchContent} className='searchCate'>
             <option value="title">제목</option>
-            <option value="content">내용</option>
-            <option value="title+content">제목+내용</option>
+            <option value="contents">내용</option>
+            <option value="title+contents">제목+내용</option>
             <option value="nick">닉네임</option>
           </select>
           <input name="keyword" onChange={searchContent} className='searchContent' onKeyDown={keydown} placeholder='검색어를 입력하세요' />
@@ -204,10 +204,10 @@ export const CommunityPage = () => {
 
         <div className="boardList">
           <ul>
-            {articleList && articleList.map((list, index) => (
+          {Array.isArray(articleList) && articleList.length > 0 ?(articleList && articleList.map((list, index) => (
               <li key={list.ano}>
                 <dl>
-                  <dt><a>{list.title}</a></dt>
+                  <dt><a href={`/community/view?ano=${list.ano}`}>{list.title}</a></dt>
                   <dd>
                     <img src="../images/ball.png" alt='포켓볼' />
                     <a>{list.nick}</a>
@@ -218,7 +218,12 @@ export const CommunityPage = () => {
                   <span> {list.rdate}</span>
                 </p>
               </li>
-            ))}
+            ))):(
+            <li style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', textAlign: 'center' }}>
+              <dl>
+                검색결과가 없습니다.
+              </dl>              
+            </li>)}
           </ul>
         </div>
       </InfiniteScroll>
