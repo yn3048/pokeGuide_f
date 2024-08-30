@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RootUrl } from '../../api/RootUrl'; // API 경로가 정의된 파일
+import { RootUrl, socket } from '../../api/RootUrl'; // API 경로가 정의된 파일
 
 const Alarms = ({ uid }) => {
     const [alarms, setAlarms] = useState([]);
@@ -12,9 +12,17 @@ const Alarms = ({ uid }) => {
                 setAlarms(Array.isArray(data) ? data : []); // 배열이 아닌 경우 빈 배열로 설정
             })
             .catch(error => console.error('Error fetching alarms:', error));
-    }, [uid]);
+            socket.on('notification', (newAlarm) => {
+                console.log("New alarm received:", newAlarm);
+                setAlarms((prevAlarms) => [...prevAlarms, newAlarm]);
+            });
+    
+            return () => {
+                socket.off('notification');
+            };
+        }, [uid]);
 
-    const checkAlarm = (alarmId) => {
+    const checkAndDeleteAlarm = (alarmId) => {
         fetch(`${RootUrl}/chat/alarms/${alarmId}/check`, {
             method: 'POST',
         })
@@ -31,7 +39,7 @@ const Alarms = ({ uid }) => {
                 {alarms.map(alarm => (
                     <li key={alarm.id}>
                         {alarm.message}
-                        <button onClick={() => checkAlarm(alarm.id)}>Check</button>
+                        <button onClick={() => checkAndDeleteAlarm(alarm.id)}>Check</button>
                     </li>
                 ))}
             </ul>

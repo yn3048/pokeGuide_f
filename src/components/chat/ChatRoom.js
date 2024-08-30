@@ -26,51 +26,62 @@ const ChatRoom = () => {
     useEffect(() => {
         if (!currentUser || !currentUser.uid) {
             navigate('/user/login');
-        } else {
+        } else {    
             socket.on('connect', () => {
                 console.log('Socket connected');
             });
-
+    
             socket.on('connect_error', (err) => {
                 console.error('Socket connection error:', err);
             });
-
+    
             socket.on('disconnect', () => {
                 console.log('Socket disconnected');
             });
-
+    
             socket.on('chat message', (msg) => {
                 console.log('New message received:', msg);
                 const parsedMsg = typeof msg === 'string' ? JSON.parse(msg) : msg;
                 setMessages((prevMessages) => [...prevMessages, parsedMsg]);
             });
 
-            fetch(`${RootUrl}/messages/chatroom/${chatNo}?uid=${currentUser.uid}`)
-            .then(response => {
-                if (response.status === 403) {
-                    // 접근 권한이 없으면 홈으로 리다이렉트
-                    navigate('/');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (Array.isArray(data)) {
-                    setMessages(data);
-                } else {
-                    console.error('Received data is not an array:', data);
-                    setMessages([]);  // 데이터가 배열이 아닌 경우 빈 배열로 설정
-                }
-            })
-            .catch(error => console.error('Error fetching messages:', error));
+            // 알림 수신 설정
+        socket.on('notification', (message) => {
+            console.log('Received notification:', message);
+        });
 
+    
+            fetch(`${RootUrl}/messages/chatroom/${chatNo}?uid=${currentUser.uid}`)
+                .then(response => {
+                    if (response.status === 403) {
+                        navigate('/');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        setMessages(data);
+                    } else {
+                        console.error('Received data is not an array:', data);
+                        setMessages([]); // 데이터가 배열이 아닌 경우 빈 배열로 설정
+                    }
+                })
+                .catch(error => console.error('Error fetching messages:', error));
+    
+            // 방에 조인
+            socket.emit('join room', chatNo);
+    
+            // Clean up: 컴포넌트 언마운트 시 리스너 제거
             return () => {
                 socket.off('chat message');
                 socket.off('connect');
                 socket.off('disconnect');
+                socket.off('notification'); // 알림 이벤트 해제
                 socket.off('connect_error');
             };
         }
     }, [currentUser, navigate, chatNo]);
+    
 
     // messages 상태가 변경될 때마다 스크롤을 아래로 이동
     useEffect(() => {
@@ -80,22 +91,27 @@ const ChatRoom = () => {
 
     const sendMessage = () => {
         if (message.trim() === '') return;
+      
         if (currentUser) {
-            const chatMessage = { message, uid: currentUser.uid, chatNo: chatNo };
-
-            socket.emit('chat message', chatMessage);
-
-            fetch(`${RootUrl}/messages`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(chatMessage),
-            })
-            .then(response => response.json())
-            .then(data => console.log('Message saved:', data))
+          const chatMessage = { message, uid: currentUser.uid, chatNo: chatNo };
+      
+          socket.emit('chat message', JSON.stringify(chatMessage));
+      
+          // 서버에 메시지 저장
+          fetch(`${RootUrl}/messages`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(chatMessage),
+          }).then(response => response.json())
+          .then(data => {
+            console.log('Message saved:', data);
+        })
             .catch(error => console.error('Error saving message:', error));
-            setMessage('');
+      
+          setMessage('');
         }
-    };
+      };
+      
 
 
 
@@ -196,28 +212,33 @@ const ChatRoom = () => {
                 </div>
             )}
             <div className="chatroom-messages">
-            {messages.map((msg, index) => (
-    <div key={index} className={`chatroom-message ${msg.uid === currentUser.uid ? 'own-message' : 'other-message'}`}>
-        <span className="message-author">{msg.uid}</span>: 
-        {msg.imageUrl ? (
-            <a 
-                href={`http://localhost:8080${msg.imageUrl}`} 
-                download 
-                target="_blank" 
-                rel="noopener noreferrer"
-            >
-                <img 
-                    src={`http://localhost:8080${msg.imageUrl}`} 
-                    alt="uploaded file" 
-                    className="message-image" 
-                    style={{ maxWidth: '100px', maxHeight: '100px' }} 
-                />
-            </a>
-        ) : (
-            <span className="message-content">{msg.message}</span>
-        )}
-    </div>
-))}
+    {messages.filter(msg => msg.message || msg.imageUrl).map((msg, index) => (
+        <div key={index} className={`chatroom-message ${msg.uid === currentUser.uid ? 'own-message' : 'other-message'}`}>
+            {/* uid가 있을 때만 uid와 message를 표시 */}
+            {msg.uid && (
+                <span className="message-author">
+                    {msg.uid} 
+                </span>
+            )}
+            {msg.imageUrl ? (
+                <a 
+                    href={`http://localhost:8080${msg.imageUrl}`} 
+                    download 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
+                    <img 
+                        src={`http://localhost:8080${msg.imageUrl}`} 
+                        alt="uploaded file" 
+                        className="message-image" 
+                        style={{ maxWidth: '100px', maxHeight: '100px' }} 
+                    />
+                </a>
+            ) : (
+                <span className="message-content">{msg.message}</span>
+            )}
+        </div>
+            ))}
 
                 <div ref={messagesEndRef} />
             </div>

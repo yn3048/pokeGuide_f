@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { RootUrl, socket } from '../../api/RootUrl';
 import Alarms from '../chat/Alarms';
-import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 
 const Header = ({uid}) => {
@@ -9,31 +8,41 @@ const Header = ({uid}) => {
   const currentUser = useSelector((state) => state.authSlice);
 
   useEffect(() => {
-    console.log("UID:", currentUser.uid); // UID가 제대로 전달되는지 확인
-    if (!currentUser.uid) return;  // uid가 없을 경우 실행하지 않음
+    if (!currentUser.uid) return;
 
-    if (uid) {
-      // Socket.IO 클라이언트 설정
-      socket.emit('join', { uid });
-    
+    if (currentUser && currentUser.uid) {
 
-    // 연결된 후 특정 유저에 대한 알림을 수신
-    socket.on("notification", (message) => {
-      console.log("Received notification:", message);
-      setAlarmCount(prevCount => prevCount + 1);
-    });
+      socket.io.opts.query = { uid: currentUser.uid };
 
-    // 초기 알림 카운트 가져오기
-    fetch(`${RootUrl}/chat/alarms?uid=${uid}`)
-      .then(response => response.json())
-      .then(data => setAlarmCount(data.length))
-      .catch(error => console.error('Error fetching alarm count:', error));
-  }
+        // 소켓 연결
+        socket.connect();
+
+
+        // 연결 확인
+        socket.on('connect', () => {
+            console.log('Socket connected:', socket.id);
+        });
+
+
+        // 알림 이벤트 수신 설정
+        socket.on("notification", (message) => {
+            console.log("Received notification:", message);
+            setAlarmCount(prevCount => prevCount + 1);
+        });
+
+        // 기존 알림 카운트를 가져오는 요청
+        fetch(`${RootUrl}/chat/alarms?uid=${uid}`)
+            .then(response => response.json())
+            .then(data => setAlarmCount(data.length))
+            .catch(error => console.error('Error fetching alarm count:', error));
+    }
 
     return () => {
-      socket.disconnect();
+        socket.off('notification');
+        socket.disconnect();
     };
-  }, [uid]);
+}, [uid]);
+
 
   return (
     <>
