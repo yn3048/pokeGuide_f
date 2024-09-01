@@ -1,15 +1,15 @@
 import React from 'react'
 import Header from '../components/main/Header'
-import Contents from '../components/main/Contents'
+import '../styles/default.scss';
+
 
 const DefaultLayout = ({children}) => {
   return (
-    <div className="wrap">
+    <div className="Wrap">
       <Header/>
       <main>
-        <Contents>{children}</Contents>
+            {children}
       </main>
-      <Footer/>
     </div>
   )
 }

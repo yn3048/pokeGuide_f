@@ -11,6 +11,7 @@ import FindPass from "../pages/user/FindPass";
 
 import UserlistPage from "../pages/admin/UserListPage";
 
+
 import ChatRoom from "../components/chat/ChatRoom";
 import ChatRoomList from "../components/chat/ChatRoomList";
 import ProtectedRoute from "./ProtectedRoute";
@@ -33,8 +34,8 @@ const root = createBrowserRouter([
     {path: "/poke/list", element:<ListPage />}, // 포켓몬 목록
 
     // admin
-    {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
-    {path: "/admin/userlist", element:<UserlistPage/>},//관리자 - 회원관리
+    // {path: "/admin/dashboard", element:<DashboardPage />}, // 관리자 대시보드
+    // {path: "/admin/userlist", element:<UserlistPage/>},//관리자 - 회원관리
 
 
 
