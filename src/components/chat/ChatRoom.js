@@ -17,6 +17,7 @@ const ChatRoom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    // asdasdasdasd TEST
     useEffect(() => {
         if (!currentUser || !currentUser.uid) {
             navigate('/user/login');
